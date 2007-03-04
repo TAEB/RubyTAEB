@@ -15,8 +15,9 @@ $dont   = 254.chr
 $iac    = 255.chr
 
 class Telnet
-  def initialize()
-    @socket = TCPSocket.open("nethack.alt.org", "telnet")
+  def initialize(server)
+    @server = server
+    @socket = TCPSocket.open(@server, "telnet")
     @subnegotiation = ''
     @output = ''
     @mode = :text
