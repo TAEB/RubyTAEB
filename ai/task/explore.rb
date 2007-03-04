@@ -4,6 +4,7 @@ class TaskExplore
   def initialize()
     @map = Array.new(81) {|x| Array.new(24, "\0")}
     @stepped_on = Array.new(81) {|x| Array.new(24, 0)}
+    @path = []
   end
 
   def stepped_on?(x, y)
@@ -88,34 +89,48 @@ class TaskExplore
     end
   end
 
-  def next_move(x, y)
-    best_val = nil
-    best = []
+  def bfs_for_least_step(x, y)
+    queue = [[x, y, []]]
+    visited = Array.new(81) {|x| Array.new(24, false)}
+    least_path = []
+    least_step = nil
 
-    each_adjacent do |dx, dy|
-      if (best_val == nil or step_times(x+dx,y+dy) <= best_val) and
-          walkable?($controller.at(x+dx,y+dy))
+    while queue.size > 0
+      x, y, path = queue.shift
+      if least_step == nil or step_times(x, y) < least_step
+        least_path = path
+        least_step = step_times(x, y)
+        return path if least_step == 0
+      end
+      visited[x][y] = true
+      each_adjacent do |dx, dy|
+        next if visited[x+dx][y+dy]
+        if not walkable?($controller.at(x+dx, y+dy))
+          visited[x+dx][y+dy] = true
+          next
+        end
 
-            # can't walk diagonally off or onto a door
-            if dx != 0 and dy != 0 and
-              ($map.at(x, y) == ',' || $map.at(x+dx, y+dy) == ',')
-                 next
-            end
+        return path + [move_with_delta(dx, dy), ":"] if $controller.at(x+dx, y+dy) == '>'
 
-            if best_val != nil and step_times(x+dx, y+dy) > best_val
-              best = []
-            end
-            best_val = step_times(x+dx, y+dy)
-            if step_times(x+dx, y+dy) == best_val
-              best.push(move_with_delta(dx, dy))
-            end
+        queue.push([x+dx, y+dy, path + [move_with_delta(dx, dy)]])
       end
     end
 
-    if best == []
-      raise "I have nowhere to go! Ack!"
+    return least_path
+  end
+
+  def next_move(x, y)
+    if @path.size > 0
+      return @path.shift
     end
-    best[rand(best.size)]
+
+    path = bfs_for_least_step(x, y)
+    $stderr.puts "New path: " + path.to_s
+    if path
+      @path = path
+      return @path.shift
+    end
+    return ['h', 'j' 'k', 'l', 'y', 'u', 'b', 'n'][rand(8)]
   end
 end
 
