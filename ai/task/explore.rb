@@ -89,18 +89,14 @@ class TaskExplore
     end
   end
 
-  def bfs_for_least_step(x, y)
+  def bfs_for_zero_step(x, y)
     queue = [[x, y, []]]
     visited = Array.new(81) {|x| Array.new(24, false)}
-    least_path = []
-    least_step = nil
 
     while queue.size > 0
       x, y, path = queue.shift
-      if least_step == nil or step_times(x, y) < least_step
-        least_path = path
-        least_step = step_times(x, y)
-        return path if least_step == 0
+      if not stepped_on?(x, y)
+        return path
       end
       visited[x][y] = true
       each_adjacent do |dx, dy|
@@ -110,13 +106,11 @@ class TaskExplore
           next
         end
 
-        return path + [move_with_delta(dx, dy), ":"] if $controller.at(x+dx, y+dy) == '>'
-
         queue.push([x+dx, y+dy, path + [move_with_delta(dx, dy)]])
       end
     end
 
-    return least_path
+    return nil
   end
 
   def next_move(x, y)
@@ -124,13 +118,13 @@ class TaskExplore
       return @path.shift
     end
 
-    path = bfs_for_least_step(x, y)
+    path = bfs_for_zero_step(x, y)
     $stderr.puts "New path: " + path.to_s
     if path
       @path = path
       return @path.shift
     end
-    return ['h', 'j' 'k', 'l', 'y', 'u', 'b', 'n'][rand(8)]
+    return ['h', 'j', 'k', 'l', 'y', 'u', 'b', 'n'][rand(8)]
   end
 end
 
