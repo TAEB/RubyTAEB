@@ -2,6 +2,7 @@
 require 'interface/controller.rb'
 require 'interface/telnet.rb'
 require 'interface/vt.rb'
+require 'interface/map.rb'
 require 'ai/task/explore.rb'
 require 'ai/task/fight.rb'
 require 'ai/task/opendoor.rb'
@@ -13,6 +14,7 @@ begin
   $task_explore = TaskExplore.new()
   $task_fight = TaskFight.new()
   $task_opendoor = TaskOpenDoor.new()
+  $map = Map.new()
 
   while 1
     if $controller.vt.to_s =~ /--More--/
@@ -28,6 +30,8 @@ begin
         sleep 1
       end
     end
+
+    $map.update
 
     redo if $task_fight.run()
     redo if $task_opendoor.run()

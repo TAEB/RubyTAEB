@@ -90,6 +90,12 @@ class TaskExplore
     each_adjacent do |dx, dy|
       if (best_val == nil or step_times(x+dx,y+dy) < best_val) and
           walkable?($controller.at(x+dx,y+dy))
+
+            # can't walk diagonally off or onto a door
+            if ($map.at(x, y) == ',' || $map.at(x+dx, y+dy) == ',') and
+               dx != 0 and dy != 0
+                 next
+            end
             best_val = step_times(x+dx,y+dy)
             best = move_with_delta(dx, dy)
       end
