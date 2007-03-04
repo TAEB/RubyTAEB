@@ -7,6 +7,7 @@ require 'ai/task/explore.rb'
 require 'ai/task/fight.rb'
 require 'ai/task/opendoor.rb'
 require 'ai/task/fixhunger.rb'
+require 'ai/task/elbereth.rb'
 require 'ai/hero.rb'
 
 begin
@@ -16,6 +17,7 @@ begin
   $task_fight = TaskFight.new()
   $task_opendoor = TaskOpenDoor.new()
   $task_fixhunger = TaskFixHunger.new()
+  $task_elbereth = TaskElbereth.new()
   $map = Map.new()
 
   while 1
@@ -35,8 +37,9 @@ begin
 
     $map.update
 
-    redo if $task_fight.run()
     redo if $task_fixhunger.run()
+    redo if $task_elbereth.run()
+    redo if $task_fight.run()
     redo if $task_opendoor.run()
     redo if $task_explore.run()
   end
