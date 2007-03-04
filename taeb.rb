@@ -17,7 +17,7 @@ begin
       redo
     end
 
-    $task_explore.run()
+    redo if $task_explore.run()
   end
 
 rescue RuntimeError => err

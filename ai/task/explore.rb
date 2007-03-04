@@ -32,6 +32,7 @@ class TaskExplore
     move = next_move($hero.x, $hero.y)
     $stderr.puts "Making #{move} from #{$hero.x}, #{$hero.y}"
     $controller.send(move)
+    return 1
   end
 
   def move_with_delta(dx, dy)
