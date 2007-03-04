@@ -6,6 +6,10 @@ class Map
     @z = 1
   end
 
+  def descend
+    @z += 1
+  end
+
   def scenery?(tile)
     case tile
     when '.', ',', ']', '-', '|', '#', '}', '{', '<', '>',

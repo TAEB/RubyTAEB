@@ -35,6 +35,13 @@ begin
       end
     end
 
+    if $controller.vt.to_s =~ /There is a staircase down here/
+      $stderr.puts "Going downstairs."
+      $controller.send(">")
+      $map.descend
+      redo
+    end
+
     $map.update
 
     redo if $task_fixhunger.run()
