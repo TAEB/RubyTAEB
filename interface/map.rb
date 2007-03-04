@@ -8,7 +8,7 @@ class Map
 
   def scenery?(tile)
     case tile
-    when '.', ',', '-', '|', '#', '}', '{', '<', '>',
+    when '.', ',', ']', '-', '|', '#', '}', '{', '<', '>',
       1
     else
       nil

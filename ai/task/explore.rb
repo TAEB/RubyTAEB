@@ -20,7 +20,7 @@ class TaskExplore
 
   def walkable?(tile)
     case tile
-    when '.', '#', '{', '_', '<', '>'
+    when '.', ',', '#', '{', '_', '<', '>'
       1
     when ')', '[', '=', '"', '(', '%', '!', '?', '+', '/', '$', '*', '`'
       1
@@ -85,10 +85,10 @@ class TaskExplore
 
   def next_move(x, y)
     best_val = nil
-    best = nil
+    best = []
 
     each_adjacent do |dx, dy|
-      if (best_val == nil or step_times(x+dx,y+dy) < best_val) and
+      if (best_val == nil or step_times(x+dx,y+dy) <= best_val) and
           walkable?($controller.at(x+dx,y+dy))
 
             # can't walk diagonally off or onto a door
@@ -96,15 +96,18 @@ class TaskExplore
                dx != 0 and dy != 0
                  next
             end
-            best_val = step_times(x+dx,y+dy)
-            best = move_with_delta(dx, dy)
+            if step_times(x+dx, y+dy) > best_val
+              best = []
+            best_val = step_times(x+dx, y+dy)
+            if step_times(x+dx, y+dy) == best_val
+              best.push(move_with_delta(dx, dy))
       end
     end
 
-    if best == nil
+    if best == []
       raise "I have nowhere to go! Ack!"
     end
-    best
+    best[rand(best.size)]
   end
 end
 

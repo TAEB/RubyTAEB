@@ -6,7 +6,7 @@ class TaskOpenDoor
 
   def openable?(tile)
     case tile
-    when ","
+    when "]"
       1
     else
       nil
