@@ -5,8 +5,8 @@ class TaskElbereth
   end
 
   def low_hp?
-    $controller.vt.to_s =~ / HP:(\d+)\((\d+)\) /
-    $2.to_i * 2 <= $1.to_i # <= half
+    $controller.vt.to_s =~ /HP:?(-?\d+)\((\d+)\)/ or raise "Unable to check HP" + $controller.vt.to_s
+    $1.to_i * 2 <= $2.to_i # <= half
   end
 
   def elberethable?(tile)
