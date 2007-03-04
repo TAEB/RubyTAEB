@@ -4,6 +4,15 @@ class TaskOpenDoor
   def initialize()
   end
 
+  def closable?(tile)
+    case tile
+    when ","
+      true
+    else
+      false
+    end
+  end
+
   def openable?(tile)
     case tile
     when "]"
@@ -16,8 +25,9 @@ class TaskOpenDoor
   def run()
     move = next_move($hero.x, $hero.y)
     if move
-      $stderr.puts "Opening toward #{move} from #{$hero.x}, #{$hero.y}"
-      $controller.send("o" + move)
+      $stderr.puts "Closing/kicking toward #{move} from #{$hero.x}, #{$hero.y}"
+      $controller.send(move)
+      return true
     end
     return move != nil
   end
@@ -71,7 +81,9 @@ class TaskOpenDoor
   def next_move(x, y)
     each_adjacent do |dx, dy|
       if openable?($controller.at(x+dx,y+dy))
-        return move_with_delta(dx, dy)
+        return 4.chr + move_with_delta(dx, dy)
+      elsif closable?($controller.at(x+dx,y+dy))
+        return "c" + move_with_delta(dx, dy)
       end
     end
 
