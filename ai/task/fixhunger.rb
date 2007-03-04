@@ -20,9 +20,9 @@ class TaskFixHunger
     if weak?
       $stderr.puts "Praying because we're weak"
       $controller.send("#pray\n")
-      return 1
+      return true
     end
-    return nil
+    return false
   end
 end
 

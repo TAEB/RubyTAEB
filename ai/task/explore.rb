@@ -22,11 +22,11 @@ class TaskExplore
   def walkable?(tile)
     case tile
     when '.', ',', '#', '{', '_', '<', '>'
-      1
+      true
     when ')', '[', '=', '"', '(', '%', '!', '?', '+', '/', '$', '*', '`'
-      1
+      true
     else
-      nil
+      false
     end
   end
 
@@ -38,9 +38,9 @@ class TaskExplore
     $controller.send(move)
     if tx == $hero.x && ty == $hero.y && move =~ /[yubn]/
       $map.update($hero.x, $hero.y, ',')
-      return nil
+      return false
     end
-    return 1
+    return true
   end
 
   def move_with_delta(dx, dy)

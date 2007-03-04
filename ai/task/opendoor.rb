@@ -16,9 +16,9 @@ class TaskOpenDoor
   def openable?(tile)
     case tile
     when "]"
-      1
+      true
     else
-      nil
+      false
     end
   end
 
@@ -29,7 +29,7 @@ class TaskOpenDoor
       $controller.send(move)
       return true
     end
-    return move != nil
+    return false
   end
 
   def move_with_delta(dx, dy)

@@ -12,9 +12,9 @@ class TaskElbereth
   def elberethable?(tile)
     case tile
     when "a".."z", "B".."Z", ":", ";", "~", "'", "&"
-      1
+      true
     else
-      nil
+      false
     end
   end
 
@@ -22,9 +22,9 @@ class TaskElbereth
     if next_move($hero.x, $hero.y)
       $stderr.puts "Elberething!"
       $controller.send("E-  Elbereth\n")
-      return 1
+      return true
     end
-    return nil
+    return false
   end
 
   def move_with_delta(dx, dy)
@@ -74,14 +74,14 @@ class TaskElbereth
   end
 
   def next_move(x, y)
-    return nil unless low_hp?
+    return false unless low_hp?
     each_adjacent do |dx, dy|
       if elberethable?($controller.at(x+dx,y+dy))
-        return 1
+        return true
       end
     end
 
-    return nil
+    return false
   end
 end
 

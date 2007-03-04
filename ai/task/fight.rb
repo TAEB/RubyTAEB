@@ -7,9 +7,9 @@ class TaskFight
   def fightable?(tile)
     case tile
     when "a".."z", "A".."Z", ":", ";", "~", "@", "'", "&"
-      1
+      true
     else
-      nil
+      false
     end
   end
 
@@ -18,8 +18,9 @@ class TaskFight
     if move
       $stderr.puts "Fighting toward #{move} from #{$hero.x}, #{$hero.y}"
       $controller.send("F" + move)
+      return true
     end
-    return move != nil
+    return false
   end
 
   def move_with_delta(dx, dy)
