@@ -16,6 +16,10 @@ class VT
     @screen = Array.new(@width+1) {|x| Array.new(@height+1, "\0")}
   end
 
+  def at(x, y)
+    @screen[x][y]
+  end
+
   def display()
     print "\e[H\e[2J"
     0.upto(@height) do |y|
