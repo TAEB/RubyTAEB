@@ -115,7 +115,7 @@ class Telnet
           if @type == $do || @type == $dont
             @socket.send($iac + $wont + c, 0)
           elsif @type == $will || @type == $wont
-            @socket.send($iac + $dont + c, 0)
+      #      @socket.send($iac + $dont + c, 0)
           end
         end
 
