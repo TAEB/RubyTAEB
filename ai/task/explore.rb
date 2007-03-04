@@ -96,7 +96,7 @@ class TaskExplore
                dx != 0 and dy != 0
                  next
             end
-            if step_times(x+dx, y+dy) > best_val
+            if best_val and step_times(x+dx, y+dy) > best_val
               best = []
             end
             best_val = step_times(x+dx, y+dy)
