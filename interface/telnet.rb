@@ -103,7 +103,7 @@ class Telnet
         elsif c == $ttype
           if @type == $do || @type == $dont
             @socket.send($iac + $will + c, 0)
-            @socket.send($iac + $sb + $ttype + $is + "VT220" + $iac + $se, 0)
+            @socket.send($iac + $sb + $ttype + $is + "xterm-color" + $iac + $se, 0)
           end
         elsif c == $naws
           if @type == $do || @type == $dont
