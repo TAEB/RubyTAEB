@@ -98,9 +98,11 @@ class TaskExplore
             end
             if step_times(x+dx, y+dy) > best_val
               best = []
+            end
             best_val = step_times(x+dx, y+dy)
             if step_times(x+dx, y+dy) == best_val
               best.push(move_with_delta(dx, dy))
+            end
       end
     end
 
