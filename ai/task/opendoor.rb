@@ -79,5 +79,3 @@ class TaskOpenDoor
   end
 end
 
-
-
