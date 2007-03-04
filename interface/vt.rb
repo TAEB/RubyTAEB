@@ -65,14 +65,6 @@ class VT
           if @y < 0
             @y = 0
           end
-          #if @y > @height
-          #  @y -= 1
-          #  @x = @width if @x > @width
-          #end
-          #if @x > @width
-          #  @y++
-          #  @x = 0
-          #end
           @screen[@x][@y] = chr
           @x += 1
         end
@@ -86,6 +78,8 @@ class VT
         elsif chr == ")"
           @mode = :text # disable alternate charset
         elsif chr == ">"
+          @mode = :text # dunno
+        elsif chr == "="
           @mode = :text # dunno
         elsif chr == "M"
           @mode = :text
@@ -171,6 +165,8 @@ class VT
         when "l"
           @mode = :text
           # disable line wrap
+        when "r"
+          @mode = :text
         else
           raise "Unhandled escape sequence marker <#{chr}> = chr(#{c})."
         end
