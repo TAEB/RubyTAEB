@@ -22,6 +22,8 @@ class TaskExplore
     case tile
     when '.', '#', '{', '_', '<', '>'
       1
+    when ')', '[', '=', '"', '(', '%', '!', '?', '+', '/', '$', '*', '`'
+      1
     else
       nil
     end
