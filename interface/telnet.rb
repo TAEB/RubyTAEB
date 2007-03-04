@@ -18,42 +18,66 @@ class Telnet
   def initialize()
     @socket = TCPSocket.open("nethack.alt.org", "telnet")
     @subnegotiation = ''
+    @output = ''
     @mode = :text
     @type = nil
     @received_status = nil
 
+    @ttyrec_name = "ttyrec/" + Time.now.strftime("%Y-%m-%d.%H:%M:%S") + ".ttyrec"
+    @ttyrec_handle = File.new(@ttyrec_name, "w")
+
     @socket.send($iac + $do + $status, 0)
-    send_and_recv_until('', /Login$/)
-    send_and_recv('')
+    send_and_recv_until('', /=> $/)
+  end
+
+  def print_to_ttyrec(output)
+    return if output.length == 0
+    t = Time.now
+    header = [t.tv_sec, t.tv_usec, output.length].pack("VVV")
+    @ttyrec_handle.print(header + output)
+  end
+
+  def close_ttyrec()
+    @ttyrec_handle.flush()
+    @ttyrec_handle.close()
   end
 
   def send_and_recv_until(s, regex)
     @socket.send(s, 0)
-    output = ''
+    @output = ''
 
-    until output =~ regex
-      output += recv_one()
+    until @output =~ regex
+      @output += recv_one()
     end
 
-    return output
+    print_to_ttyrec(@output)
+    return @output
   end
 
   def send_and_recv(s)
     @socket.send(s, 0)
     @socket.send($iac + $sb + $status + $send + $iac + $se, 0)
-    output = ''
+    @output = ''
 
     @received_status = nil
     until @received_status == 1
-      output += recv_one()
+      @output += recv_one()
     end
     @received_status = nil
 
-    return output
+    print_to_ttyrec(@output)
+
+    return @output
   end
 
   def recv_one()
     c = @socket.recv(1)
+    if c == ''
+      print_to_ttyrec(@output)
+      close_ttyrec()
+      raise "Disconnected from server."
+    end
+
     case @mode
       when :text
         if c == $iac
