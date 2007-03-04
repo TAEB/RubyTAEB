@@ -20,6 +20,14 @@ begin
       $controller.send(" ")
       redo
     end
+    if $controller.vt.to_s =~ /^Do you want your possessions identified\?/
+      $stderr.puts "Oh no! We died!"
+      $controller.send("y")
+      while 1 # let the Disconnect exception break the loop
+        $controller.send(" ")
+        sleep 1
+      end
+    end
 
     redo if $task_fight.run()
     redo if $task_opendoor.run()
