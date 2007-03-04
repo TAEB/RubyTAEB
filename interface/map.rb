@@ -15,7 +15,12 @@ class Map
     end
   end
 
-  def update()
+  def update(x=nil, y=nil, tile=nil)
+    if (x != nil && y != nil && tile != nil)
+      @map[x][y][@z] = tile
+      return
+    end
+
     0.upto(80) do |x|
       0.upto(24) do |y|
         if scenery?($controller.vt.at(x, y))

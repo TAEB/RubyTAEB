@@ -33,7 +33,12 @@ class TaskExplore
     step_on($hero.x, $hero.y)
     move = next_move($hero.x, $hero.y)
     $stderr.puts "Making #{move} from #{$hero.x}, #{$hero.y}"
+    tx = $hero.x, ty = $hero.ty
     $controller.send(move)
+    if tx == $hero.x && ty == $hero.y && move =~ /[yubn]/
+      $map.update($hero.x, $hero.y, ',')
+      return nil
+    end
     return 1
   end
 
