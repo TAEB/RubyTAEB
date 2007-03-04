@@ -19,7 +19,7 @@ class Map
     0.upto(80) do |x|
       0.upto(24) do |y|
         if scenery?($controller.vt.at(x, y))
-          @map[x][y][z] = $controller.vt.at(x, y)
+          @map[x][y][@z] = $controller.vt.at(x, y)
         end
       end
     end

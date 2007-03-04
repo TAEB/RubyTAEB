@@ -92,11 +92,12 @@ class TaskExplore
           walkable?($controller.at(x+dx,y+dy))
 
             # can't walk diagonally off or onto a door
-            if ($map.at(x, y) == ',' || $map.at(x+dx, y+dy) == ',') and
-               dx != 0 and dy != 0
+            if dx != 0 and dy != 0 and
+              ($map.at(x, y) == ',' || $map.at(x+dx, y+dy) == ',')
                  next
             end
-            if best_val and step_times(x+dx, y+dy) > best_val
+
+            if best_val != nil and step_times(x+dx, y+dy) > best_val
               best = []
             end
             best_val = step_times(x+dx, y+dy)
