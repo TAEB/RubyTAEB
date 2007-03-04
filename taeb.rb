@@ -1,47 +1,23 @@
 #!/usr/bin/ruby
+require 'interface/controller.rb'
 require 'interface/telnet.rb'
 require 'interface/vt.rb'
-
-password = File.new("password.txt").readline
-$vt = VT.new(80, 24)
-
-def debug(t, s)
-  if 1
-    $vt.parse(s)
-    print s
-    $stdout.flush
-  else
-    puts t
-  end
-  s
-end
+require 'ai/task/explore.rb'
+require 'ai/hero.rb'
 
 begin
-  server = "nethack.alt.org"
-  debug("Connecting to #{server}.", '')
-  connection = Telnet.new(server)
-  debug("Logging in.",
-        connection.send_and_recv("l") + connection.send_and_recv("TAEB\n"))
-
-  logged_in = debug('', connection.send_and_recv(password + "\n"))
-  if logged_in =~ /Logged in as:/
-    puts "Successfully logged in."
-  else
-    throw "Unable to log in!"
-  end
-
-  new_or_save = debug('', connection.send_and_recv("p"))
-  if new_or_save =~ /Shall I choose/
-    puts "Starting a new character."
-    debug('', connection.send_and_recv("nmmn  "))
-  else
-    puts "Restoring save file."
-    debug('', connection.send_and_recv("   "))
-  end
+  $controller = Controller.new()
+  $hero = Hero.new()
+  $task_explore = TaskExplore.new()
 
   while 1
-    command = commands[rand(commands.size())]
-    debug("Sending '#{command}'.", connection.send_and_recv(command))
+    if $controller.vt.to_s =~ /--More--/
+      $stderr.puts "I see a --More--!"
+      $controller.send(" ")
+      redo
+    end
+
+    $task_explore.run()
   end
 
 rescue RuntimeError => err
