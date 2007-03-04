@@ -53,5 +53,7 @@ begin
 
 rescue RuntimeError => err
   puts "Caught a runtime exception (#{err}). Exiting gracefully.."
+rescue Interrupt
+  # avoid stacktrace
 end
 
