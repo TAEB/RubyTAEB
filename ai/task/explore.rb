@@ -2,7 +2,6 @@
 
 class TaskExplore
   def initialize()
-    @map = Array.new(81) {|x| Array.new(24, "\0")}
     @stepped_on = Array.new(81) {|x| Array.new(24, 0)}
     @path = []
   end
