@@ -13,7 +13,7 @@ class TaskSearch < BaseTask
     @path = $map.path_to_best_match($hero.x, $hero.y) do |x, y, path|
       searches_left = 0
       $map.each_direction do |dx, dy|
-        t = $map.at(x, y)
+        t = $map.at(x+dx, y+dy)
         next unless t.scenery == "|" or t.scenery == "-" or t.scenery == "\0"
         next if t.searched >= 12
         searches_left += 12 - t.searched
