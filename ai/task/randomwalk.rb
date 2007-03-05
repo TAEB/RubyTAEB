@@ -3,7 +3,7 @@ require 'ai/task/base.rb'
 
 class TaskRandomWalk < BaseTask
   def priority()
-    0
+    1
   end
 
   def pick_move()
