@@ -2,21 +2,25 @@
 $:.push('ai/task/')
 require 'door.rb'
 require 'eatfood.rb'
+require 'elbereth.rb'
 require 'explore.rb'
 require 'fight.rb'
 require 'fixhunger.rb'
 require 'randomwalk.rb'
+require 'search.rb'
 
 class TaskHandler
   def initialize()
     @tasks =
     [
-      [2000, TaskFixHunger.new() ], # 1600 Weak, 2000 Fainting
-      [1900, TaskEatFood.new()   ], # 1520 Hungry, 1710 Weak, 1900 Fainting
-      [1000, TaskFight.new()     ],
-      [ 200, TaskDoor.new()      ],
-      [ 100, TaskExplore.new()   ],
-      [   1, TaskRandomWalk.new()],
+      [10000, TaskElbereth.new()  ], # <50% HP
+      [ 2000, TaskFixHunger.new() ], # 1600 Weak, 2000 Fainting
+      [ 1900, TaskEatFood.new()   ], # 1520 Hungry, 1710 Weak, 1900 Fainting
+      [ 1000, TaskFight.new()     ], # adjacent monster
+      [  200, TaskDoor.new()      ], # adjacent door
+      [  100, TaskExplore.new()   ],
+      [   50, TaskSearch.new()    ],
+      [    1, TaskRandomWalk.new()],
     ]
   end
 
