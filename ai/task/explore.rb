@@ -9,15 +9,17 @@ class TaskExplore < BaseTask
 
   def priority()
     @needs_updating = false if $map.updated_this_turn
-    return 0 if @needs_updating
     return 1 if @path.length > 0
+    return 0 if @needs_updating
 
     @path = $map.path_to_first_match($hero.x, $hero.y) do |x, y, path|
       $map.at(x, y).stepped_on == 0
     end
 
-    if @path == nil
-      @needs_updating = 1
+    # @path == "" doesn't make sense here because of course we've stepped on
+    # the current square
+    if @path == ""
+      @needs_updating = true
       return 0
     end
 
