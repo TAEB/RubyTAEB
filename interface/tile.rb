@@ -17,7 +17,7 @@ class Tile
 
   def Tile.scenery?(glyph)
     case glyph
-    when ".", "#", ",", "]", ">", "<", "{", "_", "\\", "^"
+    when ".", "#", ",", "]", ">", "<", "{", "_", "\\", "^", "0"
       true
     when "|", "-", "}"
       true
