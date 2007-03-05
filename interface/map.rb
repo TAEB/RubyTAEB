@@ -119,6 +119,13 @@ class Map
   end
 
   def update()
+    $controller.vt.row(23) =~ /^Dlvl:(\d+)/ or raise "Unable to check dungeon level -- row(23) = #{$controller.vt.row(23)}"
+
+    if @z != $1.to_i
+      @z = $1.to_i
+      @updated_this_turn = 1
+    end
+
     each_coord do |x, y|
       onscreen = $controller.vt.at(x, y)
 
