@@ -92,7 +92,7 @@ class Map
 
       # assume the tile is very walkable until otherwise noticed
       if not Tile.scenery?(onscreen) and @map[x][y][@z].scenery = nil
-        onscreen = '.'
+        onscreen = ','
       end
 
       if @map[x][y][@z].scenery != onscreen
