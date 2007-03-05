@@ -55,8 +55,8 @@ class Map
   end
 
   def travel(x0, y0, x1, y1)
-    queue = [[x0, y0, []]]
-    visited = Array.new(81) {|z| Array.new(24) {|x| Array.new(55, false)}}
+    queue = [[x0, y0, ""]]
+    visited = Array.new(24) {|x| Array.new(55, false)}
     visited[x0][y0] = true
 
     while queue.size > 0
@@ -65,8 +65,13 @@ class Map
         return path
       end
       each_adjacent do |dx, dy|
+        next if visited[x+dx][y+dy]
+        visited[x+dx][y+dy] = true
+        next if not walkable?(x+dx, y+dy)
+        queue.push(x+dx, y+dy, path + move_with_delta(dx, dy))
       end
     end
+    return nil
   end
 
   def update(x=nil, y=nil, tile=nil)
