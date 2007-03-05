@@ -18,7 +18,7 @@ class TaskSearch < BaseTask
         next if t.searched >= 12
         searches_left += 12 - t.searched
       end
-      path.length > 0 ? (searches_left / (path.length/3.0)) : searches_left
+      path.length > 0 ? (searches_left / (path.length*1.0)) : searches_left
     end
 
     # @path == "" is okay, it just means we're standing on the best square
