@@ -2,23 +2,14 @@
 require 'interface/controller.rb'
 require 'interface/telnet.rb'
 require 'interface/vt.rb'
-require 'interface/map.rb'
-require 'ai/task/explore.rb'
-require 'ai/task/fight.rb'
-require 'ai/task/opendoor.rb'
-require 'ai/task/fixhunger.rb'
-require 'ai/task/elbereth.rb'
+#require 'interface/map.rb'
+require 'interface/menu.rb'
 require 'ai/hero.rb'
 
 begin
   $controller = Controller.new()
   $hero = Hero.new()
-  $task_explore = TaskExplore.new()
-  $task_fight = TaskFight.new()
-  $task_opendoor = TaskOpenDoor.new()
-  $task_fixhunger = TaskFixHunger.new()
-  $task_elbereth = TaskElbereth.new()
-  $map = Map.new()
+  #$map = Map.new()
 
   while 1
     if $controller.vt.to_s =~ /--More--/
@@ -35,20 +26,18 @@ begin
       end
     end
 
-    if $controller.vt.to_s =~ /There is a staircase down here/
-      $stderr.puts "Going downstairs."
-      $controller.send(">")
-      $map.descend
-      redo
-    end
+    #$map.update
 
-    $map.update
-
-    redo if $task_fixhunger.run()
-    redo if $task_elbereth.run()
-    redo if $task_fight.run()
-    redo if $task_opendoor.run()
-    redo if $task_explore.run()
+    sleep 2
+    $controller.send("O")
+    menu = Menu.new()
+    menu.select_all_matches(/auto/)
+    menu.toggle_all_matches(/pickup/)
+    menu.unselect_all_matches(/pickup_types/)
+    menu.execute()
+    menu = Menu.new()
+    menu.single_select(/unencumbered/)
+    $controller.send("Sy  ")
   end
 
 rescue RuntimeError => err
