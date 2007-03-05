@@ -8,7 +8,7 @@ class Map
     @map = []
     @z = 1
     initialize_level(@z)
-    @updated_this_turn = 0
+    @updated_this_turn = false
   end
 
   def initialize_level(z)
@@ -129,14 +129,14 @@ class Map
   end
 
   def update()
-    @updated_this_turn = 0
+    @updated_this_turn = false
 
     $controller.vt.row(23) =~ /^ *Dlvl:(\d+)/ or raise "Unable to check dungeon level -- row(23) = #{$controller.vt.row(23)}"
 
     if @z != $1.to_i
       @z = $1.to_i
       initialize_level(@z)
-      @updated_this_turn = 1
+      @updated_this_turn = true
     end
 
     @map[@z][$hero.x][$hero.y].stepped_on += 1
@@ -155,7 +155,7 @@ class Map
 
       if @map[@z][x][y].scenery != onscreen
         @map[@z][x][y].scenery = onscreen
-        @updated_this_turn = 1
+        @updated_this_turn = true
       end
     end
   end
