@@ -1,11 +1,18 @@
 #!/usr/bin/ruby
 
 class Tile
-  attr_accessor :scenery, :items, :monster
-  def initialize()
+  attr_accessor :scenery, :stepped_on
+  attr_reader :x, :y, :z
+
+  def initialize(z, x, y)
     @scenery = nil
     @items = nil
     @monster = nil
+    @stepped_on = 0
+
+    @z = z
+    @x = x
+    @y = y
   end
 
   def Tile.scenery?(glyph)

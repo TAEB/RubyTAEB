@@ -12,7 +12,7 @@ class Map
   end
 
   def initialize_level(z)
-    @map[z] ||= Array.new(81) {|x| Array.new(25) {|y| Tile.new() }}
+    @map[z] ||= Array.new(81) {|x| Array.new(25) {|y| Tile.new(z, x, y) }}
   end
 
   def each_direction()
@@ -137,6 +137,8 @@ class Map
       @updated_this_turn = 1
     end
 
+    @map[@z][$hero.x][$hero.y].stepped_on += 1
+
     each_coord do |x, y|
       onscreen = $controller.vt.at(x, y)
 
@@ -155,6 +157,10 @@ class Map
 
   def at(x, y, z=@z)
     @map[z][x][y]
+  end
+
+  def at_delta(dx=0, dy=0, dz=0)
+    at($hero.x+dx, $hero.y+dy, @z+dz)
   end
 end
 
