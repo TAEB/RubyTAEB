@@ -34,7 +34,34 @@ class TaskHandler
       sort {|a, b| b[0] <=> a[0]}.
       each do |task_array|
         debug("Running #{task_array[1].class.to_s} which has priority #{task_array[0]}")
-        break if task_array[1].run()
+        result = task_array[1].run()
+        clear_screen()
+        break if result
+    end
+  end
+
+  def clear_screen()
+    if $controller.vt.row(0) =~ /^ *Things that are here: *$/ or
+       $controller.vt.row(2) =~ /^ *Things that are here: *$/
+      debug("Things that are here menu")
+      $controller.send(" ")
+      redo
+    end
+
+    if $controller.vt.row(0) =~ /--More-- *$/ or
+       $controller.vt.row(1) =~ /--More-- *$/
+         debug("I see a --More--!")
+         $controller.send(" ")
+         redo
+    end
+
+    if $controller.vt.row(0) =~ /^Do you want your possessions identified\?/
+      debug("Oh no! We died!")
+      $controller.send("y")
+      while 1 # let the Disconnect exception break the loop
+        $controller.send(" ")
+        sleep 1
+      end
     end
   end
 end
