@@ -1,45 +1,54 @@
 #!/usr/bin/ruby
 
 class Tile
-  attr_reader :scenery, :items, :monster
+  attr_accessor :scenery, :items, :monster
   def initialize()
     @scenery = nil
     @items = nil
     @monster = nil
   end
 
-  def scenery?
-    case scenery
-    when '.', ',', ']', '-', '|', '#', '}', '{', '<', '>', '^'
+  def Tile.scenery?(glyph)
+    case glyph
+    when ".", "#", ",", "]", ">", "<", "{", "_", "\\", "^"
+      true
+    when "|", "-", "}"
       true
     else
       false
     end
   end
 
-  def is_walkable?
-    case scenery
+  def Tile.walkable?(glyph)
+    case glyph
     when ".", "#", ",", "]", ">", "<", "{", "_", "\\", "^"
-      return true
+      true
+    else
+      false
     end
-    if
-      case items[0]
-      when "!", "?", "+", "=", '"', "/", "(", ")", "[", "$", "`", "%", "*"
-        true
-    end
-    return false
   end
 
-  def walk_penalty
-    case tile
+  def Tile.walk_penalty(glyph)
+    case glyph
     when "^"
       1000
     when ".", "#", ",", "]", ">", "<", "{", "_", "\\", "^"
       1
-    when "!", "?", "+", "=", '"', "/", "(", ")", "[", "$", "`", "%", "*"
-      1
+    else
+      nil
     end
   end
 
+  def scenery?
+    Tile.scenery?(@scenery)
+  end
+
+  def walkable?
+    Tile.walkable?(@scenery)
+  end
+
+  def walk_penalty()
+    Tile.walk_penalty(@scenery)
+  end
 end
 
