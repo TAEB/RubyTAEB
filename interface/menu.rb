@@ -67,7 +67,7 @@ class Menu
     each_item do |item|
       next unless item =~ /^(.) - (.+)$/ # skip over headings
       selector, item = $1, $2
-      if yield selector, item
+      if yield item
         $controller.send(selector)
         return
       end
