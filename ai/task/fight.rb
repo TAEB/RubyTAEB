@@ -6,18 +6,9 @@ class TaskFight < BaseTask
     @direction = nil
   end
 
-  def adjacent_fightable?()
-    $map.each_direction do |dx, dy|
-      if $map.at_delta(dx, dy).monster?
-        @direction = $map.move_with_delta(dx, dy)
-        return true
-      end
-    end
-    false
-  end
-
   def priority()
-    adjacent_fightable?() ? 1 : 0
+    @direction = adjacent_fightable_direction()
+    @direction ? 1 : 0
   end
 
   def pick_move()

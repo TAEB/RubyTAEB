@@ -5,13 +5,6 @@ require 'ai/task/base.rb'
 #       update and check the food-carrying status of our hero
 
 class TaskEatFood < BaseTask
-  def safe_food?(food)
-    $safe_foods.each do |safe|
-      return true if food =~ safe
-    end
-    return false
-  end
-
   def priority()
     return 0 unless $controller.vt.row(23) =~ /(Hungry|Weak|Fainting|Fainted)/
     return 0.8 if $1 == "Hungry"

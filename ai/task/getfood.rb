@@ -2,13 +2,6 @@
 require 'ai/task/base.rb'
 
 class TaskGetFood < BaseTask
-  def safe_food?(food)
-    $safe_foods.each do |safe|
-      return true if food =~ safe
-    end
-    return false
-  end
-
   def priority()
     adjacent_fightable?() ? 1 : 0
   end
