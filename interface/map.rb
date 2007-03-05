@@ -129,6 +129,8 @@ class Map
   end
 
   def update()
+    @updated_this_turn = 0
+
     $controller.vt.row(23) =~ /^ *Dlvl:(\d+)/ or raise "Unable to check dungeon level -- row(23) = #{$controller.vt.row(23)}"
 
     if @z != $1.to_i
