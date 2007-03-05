@@ -22,7 +22,7 @@ class Map
     end
   end
 
-  def each_tile()
+  def each_coord()
     0.upto(80) do |x|
       0.upto(24) do |y|
         yield x, y
@@ -83,7 +83,7 @@ class Map
   end
 
   def update()
-    each_tile do |x, y|
+    each_coord do |x, y|
       onscreen = $controller.vt.at(x, y)
 
       # assume the tile is very walkable until otherwise noticed
