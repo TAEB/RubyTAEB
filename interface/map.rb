@@ -22,6 +22,38 @@ class Map
     end
   end
 
+  def move_with_delta(dx, dy)
+    case dx
+    when -1
+      case dy
+      when -1
+        return 'y'
+      when 0
+        return 'h'
+      when 1
+        return 'b'
+      end
+    when 0
+      case dy
+      when -1
+        return 'k'
+      when 1
+        return 'j'
+      end
+    when 1
+      case dy
+      when -1
+        return 'u'
+      when 0
+        return 'l'
+      when 1
+        return 'n'
+      end
+    end
+
+    raise "Argument out of range in move_with_delta("+dx.to_s+","+dy.to_s+")"
+  end
+
   def travel(x0, y0, x1, y1)
     queue = [[x0, y0, []]]
     visited = Array.new(81) {|z| Array.new(24) {|x| Array.new(55, false)}}
