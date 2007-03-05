@@ -76,7 +76,7 @@ class Map
     while queue.size > 0
       x, y, path = shift
 
-      score = yield(x, y)
+      score = yield(x, y, path)
 
       # shortcut to allow implementation of path_to_first_match in terms of this
       # method
@@ -104,8 +104,8 @@ class Map
   end
 
   def path_to_first_match(x0, y0)
-    path_to_best_match(x0, y0) do |x, y|
-      if yield(x, y)
+    path_to_best_match(x0, y0) do |x, y, path|
+      if yield(x, y, path)
         true
       else
         0
@@ -113,7 +113,7 @@ class Map
   end
 
   def travel(x0, y0, x1, y1)
-    path_to_first_match(x0, y0) do |x, y|
+    path_to_first_match(x0, y0) do |x, y, path|
       x == x1 and y == y1
     end
   end
