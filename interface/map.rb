@@ -80,6 +80,12 @@ class Map
         next if visited[x+dx][y+dy]
         visited[x+dx][y+dy] = true
         next if not walkable?(x+dx, y+dy)
+
+        # handle not walking diagonally off/onto doors
+        next if dx != 0 and dy != 0 and
+          @map[x   ][y   ][@z].scenery == ',' or
+          @map[x+dx][y+dy][@z].scenery == ','
+
         queue.push(x+dx, y+dy, path + move_with_delta(dx, dy))
       end
     end
