@@ -11,5 +11,5 @@ $safe_foods = [/\b(?:food |cram |[KC]-)rations?\b/,
                /\bslime molds?\b/, /\bcanister of RoboJuice\(tm\)/,
                /\bpancakes?\b/, /\bfortune cookies?\b/,
                /\bcandy bars?\b/, /\blumps? of royal jelly\b/,
-               /\bcream pies?\b/]
+               /\bcream pies?\b/, /\blichen corpses?\b/]
 
