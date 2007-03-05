@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 $:.push('interface', 'ai', 'ai/task')
+require 'constants.rb'
 require 'diagnostics.rb'
 require 'controller.rb'
 require 'map.rb'
