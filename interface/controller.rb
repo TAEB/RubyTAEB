@@ -9,6 +9,7 @@ class Controller
 
   def initialize()
     @vt = VT.new(80, 24)
+    debug("Connecting to nethack.alt.org")
     @connection = Telnet.new("nethack.alt.org")
 
     login
@@ -31,6 +32,7 @@ class Controller
     if login_screen !~ /Logged in as:/
       throw "Unable to log in!"
     end
+    debug("Logged in to nethack.alt.org")
 
     sleep 1
     tmp = "p"
@@ -39,12 +41,15 @@ class Controller
       tmp = ""
 
       if play_screen =~ /Shall I choose/
+        debug("Creating a new character")
         send("y")
         break
       elsif play_screen =~ /stale NetHack processes/
+        debug("Got some stale processes; waiting 12s then trying again")
         sleep 12
         redo
       else
+        debug("Restoring saved game")
         send(" ")
         break
       end
