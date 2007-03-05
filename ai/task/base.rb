@@ -1,9 +1,6 @@
 #!/usr/bin/ruby
 
 class BaseTask
-  def initialize()
-  end
-
   def priority()
     raise "You need to override BaseTask.priority"
   end
