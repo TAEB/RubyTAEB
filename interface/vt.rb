@@ -16,6 +16,18 @@ class VT
     @screen = Array.new(@width+1) {|x| Array.new(@height+1, "\0")}
   end
 
+  def to_eol(x, y)
+    out = ''
+    x.upto(@width) do |x|
+      out += @screen[x][y] == "\0" ? ' ' : @screen[x][y]
+    end
+    out
+  end
+
+  def row(y)
+    to_eol(0, y)
+  end
+
   def at(x, y)
     @screen[x][y]
   end
