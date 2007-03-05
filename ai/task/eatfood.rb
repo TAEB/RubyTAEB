@@ -6,7 +6,7 @@ require 'ai/task/base.rb'
 
 class TaskEatFood < BaseTask
   def safe_food?(food)
-    $safe_food.each do |safe|
+    $safe_foods.each do |safe|
       return true if food =~ safe
     end
     return false
