@@ -18,8 +18,10 @@ class Controller
   def to_screen(str)
     if $to_screen
       print str
-      $stdout.flush
+    else
+      $vt.display
     end
+    $stdout.flush
     str
   end
 
