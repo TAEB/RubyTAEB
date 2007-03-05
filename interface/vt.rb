@@ -68,7 +68,7 @@ class VT
         elsif c == 13
           #@y += 1
           @x = 0
-        elsif c > 0 && c < 32
+        elsif c > 0 && c < 32 && c != 30
           raise "Unprintable character ##{c}"
         else
           if @x < 0
