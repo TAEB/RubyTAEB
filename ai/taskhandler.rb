@@ -6,20 +6,12 @@ class TaskHandler
     @tasks = []
   end
 
+  # This runs the task with the highest priority. If that task's run returns a
+  # false value, run the next-highest-priority task, and so on.
   def next_task()
-    chosen_task = nil
-    highest_priority = nil
-
-    @tasks.each do |task|
-      priority = task.priority()
-
-      if highest_priority == nil or priority > highest_priority
-        highest_priority = priority
-        chosen_task = task
-      end
+    @tasks.map {|t| [t.priority, t]}.sort.reverse.each do |task_array|
+      break if task_array[1].run
     end
-
-    chosen_task.run()
   end
 end
 
