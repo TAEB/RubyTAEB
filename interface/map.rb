@@ -87,7 +87,7 @@ class Map
       onscreen = $controller.vt.at(x, y)
 
       # assume the tile is very walkable until otherwise noticed
-      if not Tile.scenery?(onscreen)
+      if not Tile.scenery?(onscreen) and @map[x][y][@z].scenery = nil
         onscreen = '.'
       end
 
