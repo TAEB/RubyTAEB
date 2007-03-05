@@ -14,7 +14,7 @@ class Menu
     raise "I see no menu on the screen."
   end
 
-  def foreach_item
+  def foreach_item()
     while 1
       0.upto(24) do |y|
         item = $controller.vt.to_eol(@x, y)

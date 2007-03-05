@@ -12,7 +12,7 @@ class VT
     set_screen()
   end
 
-  def set_screen
+  def set_screen()
     @screen = Array.new(@width+1) {|x| Array.new(@height+1, "\0")}
   end
 
@@ -43,7 +43,7 @@ class VT
     $stdout.flush
   end
 
-  def to_s
+  def to_s()
     output = ''
     0.upto(@height) do |y|
       0.upto(@width) do |x|

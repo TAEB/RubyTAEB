@@ -39,11 +39,11 @@ class Tile
     end
   end
 
-  def scenery?
+  def scenery?()
     Tile.scenery?(@scenery)
   end
 
-  def walkable?
+  def walkable?()
     Tile.walkable?(@scenery)
   end
 
