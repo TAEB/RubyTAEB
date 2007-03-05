@@ -66,7 +66,7 @@ class Tile
   end
 
   def walkable?()
-    Tile.walkable?(@scenery)
+    @y < 22 and @y > 0 and Tile.walkable?(@scenery)
   end
 
   def monster?()
