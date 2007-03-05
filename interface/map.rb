@@ -12,7 +12,7 @@ class Map
   end
 
   def initialize_level(z)
-    @map[z] ||= Array.new(24) {|x| Array.new(55) {|y| Tile.new() }}
+    @map[z] ||= Array.new(81) {|x| Array.new(25) {|y| Tile.new() }}
   end
 
   def each_adjacent()
@@ -32,7 +32,7 @@ class Map
   end
 
   def each_tile()
-    each_coord {|x, y| yield @map[x][y][@z]}
+    each_coord {|x, y| yield @map[@z][x][y]}
   end
 
   def move_with_delta(dx, dy)
@@ -95,8 +95,8 @@ class Map
 
         # handle not walking diagonally off/onto doors
         next if dx != 0 and dy != 0 and
-          @map[x   ][y   ][@z].scenery == ',' or
-          @map[x+dx][y+dy][@z].scenery == ','
+          @map[@z][x   ][y   ].scenery == ',' or
+          @map[@z][x+dx][y+dy].scenery == ','
 
         queue.push(x+dx, y+dy, path + move_with_delta(dx, dy))
       end
@@ -133,19 +133,20 @@ class Map
       onscreen = $controller.vt.at(x, y)
 
       # assume the tile is very walkable until otherwise noticed
-      if not Tile.scenery?(onscreen) and @map[x][y][@z].scenery == nil
+      if not Tile::scenery?(onscreen) and
+         @map[@z][x][y].scenery == nil
         onscreen = ','
       end
 
-      if @map[x][y][@z].scenery != onscreen
-        @map[x][y][@z].scenery = onscreen
+      if @map[@z][x][y].scenery != onscreen
+        @map[@z][x][y].scenery = onscreen
         @updated_this_turn = 1
       end
     end
   end
 
   def at(x, y, z=@z)
-    @map[x][y][z]
+    @map[z][x][y]
   end
 end
 
