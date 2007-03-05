@@ -45,6 +45,7 @@ class TaskEatFood < BaseTask
         menu.single_select() do |food|
           safe_food?(food)
         end
+        return true
       rescue RuntimeError => err
         if err == "I see no menu on the screen."
           # only one stack of food in inv, eat it if it's safe
