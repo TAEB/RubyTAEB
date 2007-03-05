@@ -66,14 +66,14 @@ class Map
     raise "Argument out of range in move_with_delta("+dx.to_s+","+dy.to_s+")"
   end
 
-  def travel(x0, y0, x1, y1)
+  def path_to_first_match(x0, y0)
     queue = [[x0, y0, ""]]
     visited = Array.new(24) {|x| Array.new(55, false)}
     visited[x0][y0] = true
 
     while queue.size > 0
       x, y, path = shift
-      if x == x1 and y == y1
+      if yield(x, y)
         return path
       end
       each_adjacent do |dx, dy|
@@ -90,6 +90,12 @@ class Map
       end
     end
     return nil
+  end
+
+  def travel(x0, y0, x1, y1)
+    path_to_first_match(x0, y0) do |x, y|
+      x == x1 and y == y1
+    end
   end
 
   def update()
