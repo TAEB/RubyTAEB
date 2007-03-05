@@ -45,14 +45,14 @@ class TaskHandler
        $controller.vt.row(2) =~ /^ *Things that are here: *$/
       debug("Things that are here menu")
       $controller.send(" ")
-      redo
+      clear_screen()
     end
 
     if $controller.vt.row(0) =~ /--More-- *$/ or
        $controller.vt.row(1) =~ /--More-- *$/
          debug("I see a --More--!")
          $controller.send(" ")
-         redo
+         clear_screen()
     end
 
     if $controller.vt.row(0) =~ /^Do you want your possessions identified\?/
