@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 $:.push('ai/task/')
 require 'door.rb'
+require 'eatfood.rb'
 require 'explore.rb'
 require 'fight.rb'
 require 'fixhunger.rb'
@@ -10,7 +11,8 @@ class TaskHandler
   def initialize()
     @tasks =
     [
-      [2000, TaskFixHunger.new() ], # 1600 if Weak, 2000 if Fainting
+      [2000, TaskFixHunger.new() ], # 1600 Weak, 2000 Fainting
+      [1900, TaskEatFood.new()   ], # 1520 Hungry, 1710 Weak, 1900 Fainting
       [1000, TaskFight.new()     ],
       [ 200, TaskDoor.new()      ],
       [ 100, TaskExplore.new()   ],
