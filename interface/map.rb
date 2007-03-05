@@ -77,15 +77,15 @@ class Map
 
   def path_to_best_match(x0, y0)
     queue = [[x0, y0, ""]]
-    best_score = nil
-    best_path = ""
-    visited = Array.new(24) {|x| Array.new(55, false)}
+    visited = Array.new(81) {|x| Array.new(25, false)}
     visited[x0][y0] = true
 
-    while queue.size > 0
-      x, y, path = shift
+    best_score = nil
+    best_path = ""
 
-      score = yield(x, y, path)
+    while queue.size > 0
+      x, y, path = queue.shift
+      score = yield x, y, path
 
       # shortcut to allow implementation of path_to_first_match in terms of this
       # method
@@ -99,14 +99,14 @@ class Map
       each_direction do |dx, dy|
         next if visited[x+dx][y+dy]
         visited[x+dx][y+dy] = true
-        next if not walkable?(x+dx, y+dy)
+        next if not at(x+dx, y+dy).walkable?
 
         # handle not walking diagonally off/onto doors
         next if dx != 0 and dy != 0 and
-          @map[@z][x   ][y   ].scenery == ',' or
-          @map[@z][x+dx][y+dy].scenery == ','
+          (at(x   , y   ).scenery == ',' or
+           at(x+dx, y+dy).scenery == ',')
 
-        queue.push(x+dx, y+dy, path + move_with_delta(dx, dy))
+        queue.push([x+dx, y+dy, path + move_with_delta(dx, dy)])
       end
     end
     return best_path
@@ -114,7 +114,7 @@ class Map
 
   def path_to_first_match(x0, y0)
     path_to_best_match(x0, y0) do |x, y, path|
-      if yield(x, y, path)
+      if yield x, y, path
         true
       else
         0
@@ -142,8 +142,8 @@ class Map
     each_coord do |x, y|
       onscreen = $controller.vt.at(x, y)
 
-      # assume the tile is very walkable until otherwise noticed
-      if not Tile::scenery?(onscreen) and
+      # assume the tile has limited walkability until otherwise noticed
+      if not Tile.scenery?(onscreen) and
          @map[@z][x][y].scenery == nil
         onscreen = ','
       end
