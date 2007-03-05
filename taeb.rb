@@ -16,7 +16,8 @@ begin
   $taskhandler = TaskHandler.new()
 
   while 1
-    if $controller.vt.row(0) =~ /^ *Things that are here: *$/
+    if $controller.vt.row(0) =~ /^ *Things that are here: *$/ or
+       $controller.vt.row(2) =~ /^ *Things that are here: *$/
       debug("Things that are here menu")
       $controller.send(" ")
       redo
