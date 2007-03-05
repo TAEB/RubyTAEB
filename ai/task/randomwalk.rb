@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
+require 'base.rb'
 
-class TaskRandomWalk
+class TaskRandomWalk < BaseTask
   def initialize()
   end
 
