@@ -12,7 +12,7 @@ class Map
   end
 
   def initialize_level(z)
-    @map[z] = Array.new(24) {|x| Array.new(55) {|y| Tile.new() }}
+    @map[z] ||= Array.new(24) {|x| Array.new(55) {|y| Tile.new() }}
   end
 
   def each_adjacent()
@@ -121,10 +121,11 @@ class Map
   end
 
   def update()
-    $controller.vt.row(23) =~ /^Dlvl:(\d+)/ or raise "Unable to check dungeon level -- row(23) = #{$controller.vt.row(23)}"
+    $controller.vt.row(23) =~ /^ *Dlvl:(\d+)/ or raise "Unable to check dungeon level -- row(23) = #{$controller.vt.row(23)}"
 
     if @z != $1.to_i
       @z = $1.to_i
+      initialize_level(@z)
       @updated_this_turn = 1
     end
 
