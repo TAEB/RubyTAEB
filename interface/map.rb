@@ -15,7 +15,7 @@ class Map
     @map[z] ||= Array.new(81) {|x| Array.new(25) {|y| Tile.new() }}
   end
 
-  def each_adjacent()
+  def each_direction()
     for dx in [-1, 0, 1]
       for dy in [-1, 0, 1]
         yield dx, dy unless dx == 0 and dy == 0
@@ -23,12 +23,12 @@ class Map
     end
   end
 
+  def each_adjacent()
+    each_direction {|dx, dy| yield $hero.x+dx, $hero.y+dy}
+  end
+
   def each_adjacent_tile()
-    for dx in [-1, 0, 1]
-      for dy in [-1, 0, 1]
-        yield $map[@z][$hero.x+dx][$hero.y+dy] unless dx == 0 and dy == 0
-      end
-    end
+    each_adjacent {|x, y| yield @map[@z][x][y]}
   end
 
   def each_coord()
@@ -96,7 +96,7 @@ class Map
         best_path = path
       end
 
-      each_adjacent do |dx, dy|
+      each_direction do |dx, dy|
         next if visited[x+dx][y+dy]
         visited[x+dx][y+dy] = true
         next if not walkable?(x+dx, y+dy)
