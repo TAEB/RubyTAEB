@@ -30,6 +30,10 @@ class Map
     end
   end
 
+  def each_tile()
+    each_coord {|x, y| yield @map[x][y][@z]}
+  end
+
   def move_with_delta(dx, dy)
     case dx
     when -1
