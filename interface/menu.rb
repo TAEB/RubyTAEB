@@ -14,7 +14,7 @@ class Menu
     raise "I see no menu on the screen."
   end
 
-  def foreach_item()
+  def each_item()
     while 1
       0.upto(24) do |y|
         item = $controller.vt.to_eol(@x, y)
@@ -29,54 +29,51 @@ class Menu
     @page = 1
   end
 
-  def execute()
+  def finish()
     $controller.send("\n")
   end
 
-  def toggle_all_matches(regex)
-    foreach_item do |item|
-      next unless item =~ /^(.) [-+] / # skip over headings, etc
-      selector = $1
-      if item =~ regex
+  def toggle_each
+    each_item do |item|
+      next unless item =~ /^(.) ([-+]) (.+)$/ # skip over headings
+      selector, on, item = $1, $2 == '+', $3
+      if yield selector, item, on
         $controller.send(selector)
       end
     end
   end
 
-  def select_all_matches(regex)
-    foreach_item do |item|
-      next unless item =~ /^(.) - / # skip over headings, selected items
-      selector = $1
-      if item =~ regex
+  def select_each
+    each_item do |item|
+      next unless item =~ /^(.) - (.+)$/ # skip over headings, selected items
+      selector, item = $1, $2
+      if yield selector, item, false
         $controller.send(selector)
       end
     end
   end
 
-  def unselect_all_matches(regex)
-    foreach_item do |item|
-      next unless item =~ /^(.) \+ / # skip over headings, unselected items
-      selector = $1
-      if item =~ regex
+  def unselect_each
+    each_item do |item|
+      next unless item =~ /^(.) \+ (.+)$/ # skip over headings, unselected items
+      selector, item = $1, $2
+      if yield selector, item, true
         $controller.send(selector)
       end
     end
   end
 
-  def single_select(regex)
-    selected = false
-
-    foreach_item do |item|
-      next unless item =~ /^(.) - / # skip over headings
-      selector = $1
-      if item =~ regex
+  def single_select
+    each_item do |item|
+      next unless item =~ /^(.) - (.+)$/ # skip over headings
+      selector, item = $1, $2
+      if yield selector, item
         $controller.send(selector)
-        selected = true
-        break
+        return
       end
     end
 
-    raise "I didn't select an item from the single-select menu." unless selected
+    raise "I didn't select an item from the single-select menu."
   end
 
   def toggle_glyphs(*glyphs)
