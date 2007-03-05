@@ -22,6 +22,14 @@ class Map
     end
   end
 
+  def each_tile()
+    0.upto(80) do |x|
+      0.upto(24) do |y|
+        yield x, y
+      end
+    end
+  end
+
   def move_with_delta(dx, dy)
     case dx
     when -1
