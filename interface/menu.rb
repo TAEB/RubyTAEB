@@ -47,7 +47,7 @@ class Menu
     each_item do |item|
       next unless item =~ /^(.) - (.+)$/ # skip over headings, selected items
       selector, item = $1, $2
-      if yield selector, item, false
+      if yield selector, item
         $controller.send(selector)
       end
     end
@@ -57,7 +57,7 @@ class Menu
     each_item do |item|
       next unless item =~ /^(.) \+ (.+)$/ # skip over headings, unselected items
       selector, item = $1, $2
-      if yield selector, item, true
+      if yield selector, item
         $controller.send(selector)
       end
     end
