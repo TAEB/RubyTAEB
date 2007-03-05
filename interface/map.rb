@@ -23,6 +23,14 @@ class Map
     end
   end
 
+  def each_adjacent_tile()
+    for dx in [-1, 0, 1]
+      for dy in [-1, 0, 1]
+        yield $map[@z][$hero.x+dx][$hero.y+dy] unless dx == 0 and dy == 0
+      end
+    end
+  end
+
   def each_coord()
     0.upto(80) do |x|
       0.upto(24) do |y|
