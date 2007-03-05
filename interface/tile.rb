@@ -35,6 +35,15 @@ class Tile
     end
   end
 
+  def Tile.monster?(glyph)
+    case glyph
+    when "a".."z", "A".."Z", "@", "'", "&", ";", ":", "~"
+      true
+    else
+      false
+    end
+  end
+
   def Tile.walk_penalty(glyph)
     case glyph
     when "^"
@@ -46,12 +55,22 @@ class Tile
     end
   end
 
+  def monster()
+    onscreen = $controller.at(@x, @y)
+    Tile.monster?(onscreen) ? onscreen : nil
+  end
+
   def scenery?()
     Tile.scenery?(@scenery)
   end
 
   def walkable?()
     Tile.walkable?(@scenery)
+  end
+
+  def monster?()
+    onscreen = $controller.at(@x, @y)
+    Tile.monster?(onscreen) ? true : false
   end
 
   def walk_penalty()
