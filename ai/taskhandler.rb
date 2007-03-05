@@ -48,8 +48,7 @@ class TaskHandler
       clear_screen()
     end
 
-    if $controller.vt.row(0) =~ /--More-- *$/ or
-       $controller.vt.row(1) =~ /--More-- *$/
+    if $controller.vt.to_s =~ /--More--/
          debug("I see a --More--!")
          $controller.send(" ")
          clear_screen()

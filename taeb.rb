@@ -15,6 +15,7 @@ begin
   $map = Map.new()
   $taskhandler = TaskHandler.new()
 
+  $taskhandler.clear_screen()
   while 1
     $map.update
     $taskhandler.next_task()
