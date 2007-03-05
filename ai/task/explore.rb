@@ -9,8 +9,10 @@ class TaskExplore < BaseTask
 
   def priority()
     @needs_updating = false if $map.updated_this_turn
-    return 1 if @path.length > 0
     return 0 if @needs_updating
+
+    @path = "" if $map.updated_this_turn
+    return 1 if @path.length > 0
 
     @path = $map.path_to_first_match($hero.x, $hero.y) do |x, y, path|
       $map.at(x, y).stepped_on == 0
