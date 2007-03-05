@@ -21,7 +21,7 @@ class TaskDoor < BaseTask
   end
 
   def pick_move()
-    "k" + @direction
+    4.chr() + @direction
   end
 end
 
