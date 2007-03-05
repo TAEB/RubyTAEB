@@ -109,6 +109,7 @@ class Map
         true
       else
         0
+      end
     end
   end
 
