@@ -74,25 +74,15 @@ class Map
     return nil
   end
 
-  def update(x=nil, y=nil, tile=nil)
-    @updated_this_turn = 0
-    $controller.vt.to_s =~ /Dlvl:(\d+)/ or raise "Unable to check dungeon level"
-    @z = $1.to_i
-    if (x != nil && y != nil && tile != nil)
-      if @map[x][y][@z] != tile
-        @updated_this_turn = 1
-      end
-      @map[x][y][@z] = tile
-      return
-    end
-
+  def update()
     0.upto(80) do |x|
       0.upto(24) do |y|
-        if scenery?($controller.vt.at(x, y))
-          if @map[x][y][@z] != $controller.vt.at(x, y)
+        onscreen = $controller.vt.at(x, y)
+        if Tile.scenery?(onscreen)
+          if @map[x][y][@z].scenery != onscreen
+            @map[x][y][@z].scenery = onscreen
             @updated_this_turn = 1
           end
-          @map[x][y][@z] = $controller.vt.at(x, y)
         end
       end
     end
