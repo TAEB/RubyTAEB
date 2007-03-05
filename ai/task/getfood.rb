@@ -3,7 +3,7 @@ require 'ai/task/base.rb'
 
 class TaskGetFood < BaseTask
   def priority()
-    adjacent_fightable?() ? 1 : 0
+    0
   end
 
   def run()
