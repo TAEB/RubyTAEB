@@ -1,10 +1,7 @@
 #!/usr/bin/ruby
-require 'base.rb'
+require 'ai/task/base.rb'
 
 class TaskRandomWalk < BaseTask
-  def initialize()
-  end
-
   def priority()
     0
   end
