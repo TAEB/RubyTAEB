@@ -1,0 +1,8 @@
+To begin running TAEB on your own:
+
+1. Create an account on nethack.alt.org. You can use an existing one but it's best to use a bot-specific account because of the next item in this list.
+2. Set your rcfile to be the same as TAEB's. For convenience it's included in the distribution.
+3. Modify the beginning of constants.rb to change the username from TAEB to your account name. You can also change the server but you do so at your own peril.
+4. Modify password.txt in the top directory. Put your bot account's password into this file.
+5. Run the script from the top directory with ./taeb.rb.
+
