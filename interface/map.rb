@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+require 'interface/tile.rb'
 
 class Map
   attr_reader :updated_this_turn
