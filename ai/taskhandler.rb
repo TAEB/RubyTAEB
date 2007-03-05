@@ -1,9 +1,13 @@
 #!/usr/bin/ruby
 $:.push('ai/task/')
+require 'randomwalk.rb'
 
 class TaskHandler
   def initialize()
-    @tasks = []
+    @tasks =
+    [
+      TaskRandomWalk.new(),
+    ]
   end
 
   # This runs the task with the highest priority. If that task's run returns a
