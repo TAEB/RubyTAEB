@@ -2,7 +2,7 @@
 require 'interface/telnet.rb'
 require 'interface/vt.rb'
 
-$to_screen = 1
+$to_screen = true
 
 class Controller
   attr_reader :vt, :connection
