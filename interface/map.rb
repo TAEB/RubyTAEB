@@ -91,7 +91,9 @@ class Map
       # method
       return path if score == true
 
-      if best_score == nil or score > best_score
+      # if score is false, it's definitely not a valid destination, but it could
+      # be a hop along the path to the real dest
+      if score and (best_score == nil or score > best_score)
         best_score = score
         best_path = path
       end
@@ -117,7 +119,7 @@ class Map
       if yield x, y, path
         true
       else
-        0
+        false
       end
     end
   end
