@@ -9,8 +9,8 @@ class Controller
 
   def initialize()
     @vt = VT.new(80, 24)
-    debug("Connecting to nethack.alt.org")
-    @connection = Telnet.new("nethack.alt.org")
+    debug("Connecting to #{$server}")
+    @connection = Telnet.new($server)
 
     login
   end
@@ -26,7 +26,7 @@ class Controller
   def login()
     password = File.new("password.txt").readline
     to_screen(@connection.send_and_recv("l"))
-    to_screen(@connection.send_and_recv("TAEB\n"))
+    to_screen(@connection.send_and_recv($nick + "\n"))
     login_screen = to_screen(@connection.send_and_recv(password + "\n"))
 
     if login_screen !~ /Logged in as:/

@@ -1,5 +1,8 @@
 #!/usr/bin/ruby
 
+$nick = "TAEB"
+$server = "nethack.alt.org"
+
 $safe_foods = [/\b(?:food |cram |[KC]-)rations?\b/,
                /\bgunyoki\b/, /\blembas wafers?\b/,
                /\bmelons?\b/, /\bcarrots?\b/,
