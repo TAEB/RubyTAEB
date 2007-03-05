@@ -35,8 +35,11 @@ begin
     menu.toggle_all_matches(/pickup/)
     menu.unselect_all_matches(/pickup_types/)
     menu.execute()
+
+    # handle pickup_burden menu
     menu = Menu.new()
     menu.single_select(/unencumbered/)
+
     $controller.send("Sy  ")
   end
 
