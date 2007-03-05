@@ -42,7 +42,7 @@ class Controller
 
       if play_screen =~ /Shall I choose/
         debug("Creating a new character")
-        send("y")
+        send("y ")
         break
       elsif play_screen =~ /stale NetHack processes/
         debug("Got some stale processes; waiting 12s then trying again")
@@ -50,7 +50,7 @@ class Controller
         redo
       else
         debug("Restoring saved game")
-        send(" ")
+        send("  ")
         break
       end
     end
