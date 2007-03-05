@@ -25,5 +25,3 @@ class TaskFight < BaseTask
   end
 end
 
-
-

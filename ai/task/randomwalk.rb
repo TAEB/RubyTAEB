@@ -11,4 +11,3 @@ class TaskRandomWalk < BaseTask
   end
 end
 
-
