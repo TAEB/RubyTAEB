@@ -25,9 +25,9 @@ begin
 
     if $controller.vt.row(0) =~ /--More-- *$/ or
        $controller.vt.row(1) =~ /--More-- *$/
-      debug("I see a --More--!")
-      $controller.send(" ")
-      redo
+         debug("I see a --More--!")
+         $controller.send(" ")
+         redo
     end
 
     if $controller.vt.row(0) =~ /^Do you want your possessions identified\?/
