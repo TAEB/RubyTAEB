@@ -22,6 +22,9 @@ class TaskHandler
 
   # This runs the task with the highest priority. If that task's run returns a
   # false value, run the next-highest-priority task, and so on.
+  # Warning: some tasks depend on having priority called each tick, so you can't
+  # stop processing early (a possible optimization) unless priority is separated
+  # from update
   def next_task()
     @tasks.map {|task| [task[0] * task[1].priority(), task[1]] }.
       sort {|a, b| b[0] <=> a[0]}.
