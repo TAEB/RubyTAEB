@@ -83,15 +83,17 @@ class Map
   end
 
   def update()
-    0.upto(80) do |x|
-      0.upto(24) do |y|
-        onscreen = $controller.vt.at(x, y)
-        if Tile.scenery?(onscreen)
-          if @map[x][y][@z].scenery != onscreen
-            @map[x][y][@z].scenery = onscreen
-            @updated_this_turn = 1
-          end
-        end
+    each_tile do |x, y|
+      onscreen = $controller.vt.at(x, y)
+
+      # assume the tile is very walkable until otherwise noticed
+      if not Tile.scenery?(onscreen)
+        onscreen = '.'
+      end
+
+      if @map[x][y][@z].scenery != onscreen
+        @map[x][y][@z].scenery = onscreen
+        @updated_this_turn = 1
       end
     end
   end
