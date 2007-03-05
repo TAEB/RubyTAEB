@@ -23,6 +23,7 @@ class TaskExplore < BaseTask
       return 0
     end
 
+    debug("Explore path: #{@path}") if @path.length > 3
     @path.reverse!
     return 1
   end

@@ -21,11 +21,13 @@ class TaskSearch < BaseTask
       path.length > 0 ? searches_left / path.length : searches_left
     end
 
+    # @path == "" is okay, it just means we're standing on the best square
     if @path == nil
       raise "E002: path is nil from path_to_best_match in TaskSearch.priority -- bug in path_to_best_match?"
     end
 
     @path += "s" * 12
+    debug("Search pach: #{@path}")
     @path.reverse!
     return 1
   end
