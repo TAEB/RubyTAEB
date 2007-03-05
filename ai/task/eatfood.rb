@@ -47,7 +47,7 @@ class TaskEatFood < BaseTask
         end
         return true
       rescue RuntimeError => err
-        if err == "I see no menu on the screen."
+        if err.to_s == "I see no menu on the screen."
           # only one stack of food in inv, eat it if it's safe
           if $controller.vt.row(0) =~ /^(.) - (.+)--More-- *$/
             $controller.send(" ")
@@ -60,9 +60,11 @@ class TaskEatFood < BaseTask
             end
           end
           raise "E001: Did not match the expected eat-command regex"
-        elsif err == "I didn't select an item from the single-select menu."
+        elsif err.to_s == "I didn't select an item from the single-select menu."
           menu.execute()
           return false
+        else
+          raise err
         end
       end
     end
