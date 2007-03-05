@@ -66,16 +66,27 @@ class Map
     raise "Argument out of range in move_with_delta("+dx.to_s+","+dy.to_s+")"
   end
 
-  def path_to_first_match(x0, y0)
+  def path_to_best_match(x0, y0)
     queue = [[x0, y0, ""]]
+    best_score = nil
+    best_path = ""
     visited = Array.new(24) {|x| Array.new(55, false)}
     visited[x0][y0] = true
 
     while queue.size > 0
       x, y, path = shift
-      if yield(x, y)
-        return path
+
+      score = yield(x, y)
+
+      # shortcut to allow implementation of path_to_first_match in terms of this
+      # method
+      return path if score == true
+
+      if best_score == nil or score > best_score
+        best_score = score
+        best_path = path
       end
+
       each_adjacent do |dx, dy|
         next if visited[x+dx][y+dy]
         visited[x+dx][y+dy] = true
@@ -89,7 +100,16 @@ class Map
         queue.push(x+dx, y+dy, path + move_with_delta(dx, dy))
       end
     end
-    return nil
+    return best_path
+  end
+
+  def path_to_first_match(x0, y0)
+    path_to_best_match(x0, y0) do |x, y|
+      if yield(x, y)
+        true
+      else
+        0
+    end
   end
 
   def travel(x0, y0, x1, y1)
