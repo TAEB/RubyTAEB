@@ -1,0 +1,97 @@
+* Message handling!
+  + subscriber model
+    - TaskHandler.new_message_hook(/You feel hungry/, call($taskhungry.feelhungry))
+      = pass match object (look this up) to avoid having to rerun the regex
+    - most hooks are set at task creation time
+    - can be set at any time (insert example here)
+    - seems like this is something Lisp would excel at
+* Stair detection
+  + even if there's an item on the staircase
+  + up to three real staircases per level (Vlad's on a wiztower level, < < <)
+  + mimics (so can't mark a staircase as real until we've set foot on it)
+* Map code
+  + need to detect branches -- would definitely be some weirdness if the current bot entered mines 1, went back up, then descended further into the dungeon
+  + waypoints for travelling maybe
+    - rooms!
+  + add multilevel support to travel (should be easy enough)
+  + cache best stair to stair paths? (might not even be a good idea)
+* Might be a bug lurking in code related to TaskFight (bot swung at air a few times)
+* Might be a bug still lurking in code related to TaskExplore (TaskSearch began running too early)
+  + but then again it might be fixed!
+* Need to stop kicking down doors
+  + shops!
+* Need to better make sure something's not a door by marking that we're uncertain of the glyph in map.update and if we're next to an uncertain tile, try to move on or off of it diagonally
+* Persistent state
+  + prayer timeout
+  + hunger
+  + inventory
+* Goals = longterm tasks
+  + tasks are supposed to last a few turns at most
+  + tasks are basically atomic, the smallest unit of progress :)
+  + goals are collections of tasks, varying in priority
+    - goals can modify the priorities of tasks
+  + example goals: get xl 14, get pick-axe, find candles
+  + might be very difficult to deal with
+* Port my EliteBot ItemIdentification code over
+  + might be able to start engrave IDing in ten minutes of work
+  + scour EliteBot for other usable code (config, assert for unit tests, etc)
+* Write many more unit tests
+* See if I can get a make-dist script working better
+* Character selection (EASY)
+* Second input port OR on interrupt open up an irb-like console where I can poke around the internals
+* Second output port for what TAEB thinks the world looks like
+  + can be a ttyrec or it can be sent to stdout instead of NH output
+  + unstepped on squares colored
+  + stepped on squares colored
+  + monsters colored based on something
+  + current path colored
+  + current task and other things printed
+* Get VT code to use attributes
+* doy is having trouble with having a very fast interpreter -- seems the ping pong code might not be as silverbullet as we thought
+* avoid running into floating eyes (what to do if we're cornered? shrug, attack I guess)
+* better stopgap task than searching the same square repeatedly
+  + should descend instead if a significant portion of the level is explored
+* empty squares in rooms should be marked as "explored" upon sight unless it touches a null, space, or #
+  + this should improve the exploration algorithm drastically
+  + make sure not to mark items and scenery as explored
+* examine TAEB's behavior in dark rooms
+  + this could pose a real problem if darkness is displayed the same glyph as solid rock
+  + and I think it is
+  + stepping on each tile should be okay, but walkable? will pose problems for exploration
+    - walkable? is true if we've ever stepped on the tile
+* status effects
+  + bot should wait off stun, conf, blind
+    - with priority 1100 (just above fighting)
+    - if conf or stun and peaceful monster adjacent, drop the priority to below fighting
+* TAEB doesn't handle boulders very well
+* examine TAEB's behavior in the mines (he'll probably search all the walls for doors)
+  + if in the mines, search should have priority 0
+* mines detection
+* don't attack peacefuls!
+* autopickup gold for a few more points (EASY)
+* pudding farming mode (it'll be a requirement for the first few bot ascensions.. O:))
+* dig for victory mode (I wonder what affect this will have on scorefest)
+* early wish mode (run around to fountains, dipping in them for wishes)
+* if there's a "good" item in sight, go to it and pick it up (slightly higher priority than TaskExplore)
+* if there's a monster in sight, go to it and fight it (slightly higher priority than previous item)
+* use ;
+* rogue level will be fun..
+  + stairs are both % not < and >
+  + botl changes a little
+  + door glyph always +
+* universal identifiers for items and names (big hash table)
+  + when a pudding or gremlin splits, both children keep the parent name
+  + bones shouldn't pose UID problems
+    - except TAEB bones
+* spellcasting
+  + should not be too bad!
+* should not use Elbereth against an Elbereth-ignoring monster (EASY)
+  + unless that monster is peaceful
+* make travel use Tile.walk_cost
+  + walk_cost should be smaller if we've walked on the tile before (EASY)
+* teleport trap + TC should be abusable by travel
+* optimize code for runtime
+  + use something better than bfs for travel
+  + the general search algorithm can't really use anything but bfs since the termination condition is unclear -- also no general heuristic for e.g. finding the closest unexplored tile
+* detect dead ends and search the hell outta them
+* check logs for more suggestions.. :)
