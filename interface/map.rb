@@ -108,6 +108,18 @@ class Map
     raise "Argument out of range in move_with_delta("+dx.to_s+","+dy.to_s+")"
   end
 
+  def each_step_in_path(path, x0=$hero.x, y0=$hero.y)
+    x, y = x0, y0
+
+    path.each_byte do |dir|
+      dx, dy = delta_with_move(dir.chr)
+      x += dx
+      y += dy
+      yield x, y
+    end
+    return [x, y]
+  end
+
   def path_to_best_match(x0, y0)
     queue = [[x0, y0, ""]]
     visited = Array.new(81) {|x| Array.new(25, false)}
