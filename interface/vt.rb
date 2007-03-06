@@ -61,6 +61,8 @@ class VT
       when :text
         if chr == "\e"
           @mode = :esc_need_bracket
+        elsif c == 0
+          # no-op
         elsif c == 8
           @x -= 1
         elsif c == 10
@@ -68,7 +70,7 @@ class VT
         elsif c == 13
           #@y += 1
           @x = 0
-        elsif c > 0 && c < 32 && c != 30
+        elsif c > 0 && c < 32
           raise "Unprintable character ##{c}"
         else
           if @x < 0
