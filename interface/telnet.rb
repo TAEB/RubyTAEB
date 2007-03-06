@@ -24,23 +24,8 @@ class Telnet
     @type = nil
     @received_status = nil
 
-    @ttyrec_name = "ttyrec/" + Time.now.strftime("%Y-%m-%d.%H:%M:%S") + ".ttyrec"
-    @ttyrec_handle = File.new(@ttyrec_name, "w")
-
     @socket.send($iac + $do + $status, 0)
     send_and_recv_until('', /=> $/)
-  end
-
-  def print_to_ttyrec(output)
-    return if output.length == 0
-    t = Time.now
-    header = [t.tv_sec, t.tv_usec, output.length].pack("VVV")
-    @ttyrec_handle.print(header + output)
-  end
-
-  def close_ttyrec()
-    @ttyrec_handle.flush()
-    @ttyrec_handle.close()
   end
 
   def send_and_recv_until(s, regex)
@@ -51,7 +36,6 @@ class Telnet
       @output += recv_one()
     end
 
-    print_to_ttyrec(@output)
     return @output
   end
 
@@ -66,16 +50,12 @@ class Telnet
     end
     @received_status = nil
 
-    print_to_ttyrec(@output)
-
     return @output
   end
 
   def recv_one()
     c = @socket.recv(1)
     if c == ''
-      print_to_ttyrec(@output)
-      close_ttyrec()
       raise "Disconnected from server."
     end
 

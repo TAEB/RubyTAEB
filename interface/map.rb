@@ -172,7 +172,7 @@ class Map
       print "\e[H\e[2J"
     end
 
-    $controller.vt.display_gen do |x, y|
+    return $controller.vt.display_gen do |x, y|
       next $controller.vt.at(x, y) if y < 1 or y > 21
       color = ""
       end_color = ""

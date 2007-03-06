@@ -12,6 +12,11 @@ class Controller
     debug("Connecting to #{$server}")
     @connection = Telnet.new($server)
 
+    @ttyrec_name = "ttyrec/" + Time.now.strftime("%Y-%m-%d.%H:%M:%S") + ".ttyrec"
+    @ttyrec_handle = File.new(@ttyrec_name, "w")
+    @debug_ttyrec_name = "ttyrec/" + Time.now.strftime("%Y-%m-%d.%H:%M:%S") + "-debug.ttyrec"
+    @debug_ttyrec_handle = File.new(@debug_ttyrec_name, "w")
+
     login
   end
 
@@ -59,12 +64,27 @@ class Controller
   end
 
   def send(str)
-    @vt.parse(to_screen(@connection.send_and_recv(str)))
+    out = @connection.send_and_recv(str)
+    @vt.parse(out)
+    to_screen(out)
     @vt.to_s
   end
 
   def at(x, y)
     @vt.at(x, y)
+  end
+
+  def print_to_ttyrec(output, handle)
+    return if output.length == 0
+    t = Time.now
+    header = [t.tv_sec, t.tv_usec, output.length].pack("VVV")
+    handle.print(header + output)
+    handle.flush()
+  end
+
+  def close_ttyrec(handle)
+    handle.flush()
+    handle.close()
   end
 end
 

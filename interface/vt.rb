@@ -37,16 +37,18 @@ class VT
     # try to avoid flicker (which is why next line is commented)
     #print "\e[H\e[2J"
 
+    output = ""
+
     0.upto(@height) do |y|
       0.upto(@width) do |x|
         cell = yield x, y
         next if @prev[x][y] == cell
-        print "\e[#{y+1};#{x+1}H" + cell
+        output += "\e[#{y+1};#{x+1}H" + cell
         @prev[x][y] = cell
       end
     end
-    print "\e[#{@y+1};#{@x+1}H"
-    $stdout.flush
+
+    return output + "\e[#{@y+1};#{@x+1}H"
   end
 
   def display()
