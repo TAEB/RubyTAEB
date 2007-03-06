@@ -1,6 +1,8 @@
 #!/usr/bin/ruby
 require 'interface/tile.rb'
 
+$need_clear = false
+
 class Map
   attr_reader :updated_this_turn
 
@@ -161,6 +163,46 @@ class Map
     end
   end
 
+  def display()
+    herox = $controller.vt.x
+    heroy = $controller.vt.y
+
+    if $need_clear
+      $need_clear = false
+      print "\e[H\e[2J"
+    end
+
+    $controller.vt.display_gen do |x, y|
+      next $controller.vt.at(x, y) if y < 1 or y > 21
+      color = ""
+      end_color = ""
+
+      #begin
+        tile = @map[@z][x][y]
+        char = tile.scenery
+        if tile.debug_color
+          color = tile.debug_color
+          end_color = "\e[0m"
+        elsif tile.unsure
+          color = "\e[1;31m"
+          end_color = "\e[0m"
+          char = $controller.vt.at(x, y)
+        elsif tile.stepped_on > 0
+          color = "\e[1;33m"
+          end_color = "\e[0m"
+        elsif tile.explored
+          color = "\e[1;32m"
+          end_color = "\e[0m"
+        end
+
+        char = '@' if herox == x and heroy == y
+        color + char + end_color
+     # rescue
+      #  " "
+     # end
+    end
+  end
+
   def update()
     @updated_this_turn = false
 
@@ -170,6 +212,7 @@ class Map
       @z = $1.to_i
       initialize_level(@z)
       @updated_this_turn = true
+      $need_clear = true
     end
 
     @map[@z][$hero.x][$hero.y].stepped_on += 1
