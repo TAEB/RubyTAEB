@@ -4,7 +4,7 @@ require 'interface/tile.rb'
 $need_clear = false
 
 class Map
-  attr_reader :updated_this_turn
+  attr_accessor :updated_this_turn
 
   def initialize()
     @map = []
@@ -219,7 +219,11 @@ class Map
   end
 
   def update()
-    @updated_this_turn = false
+    if @updated_this_turn == 1
+      @updated_this_turn == true
+    else
+      @updated_this_turn = false
+    end
 
     $controller.vt.row(23) =~ /^ *Dlvl:(\d+)/ or raise "Unable to check dungeon level -- row(23) = #{$controller.vt.row(23)}"
 
