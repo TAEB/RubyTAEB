@@ -188,10 +188,13 @@ class Map
           end_color = "\e[0m"
           char = $controller.vt.at(x, y)
         elsif tile.stepped_on > 0
-          color = "\e[1;33m"
+          color = "\e[1;32m"
           end_color = "\e[0m"
         elsif tile.explored
-          color = "\e[1;32m"
+          color = "\e[0;32m"
+          end_color = "\e[0m"
+        elsif tile.searched >= 12
+          color = "\e[0;36m"
           end_color = "\e[0m"
         end
 

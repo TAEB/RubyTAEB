@@ -28,11 +28,11 @@ class TaskExplore < BaseTask
 
     x, y = $hero.x, $hero.y
     @path.each_byte do |dir|
-      $map.at(x, y).debug_color = "\e[1;35m"
+      $map.at(x, y).debug_color = "\e[0;35m"
       dx, dy = $map.delta_with_move(dir.chr)
       x += dx
       y += dy
-      $map.at(x, y).debug_color = "\e[1;36m"
+      $map.at(x, y).debug_color = "\e[1;35m"
     end
     $map.at.debug_color = nil
 
