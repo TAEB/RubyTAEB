@@ -26,7 +26,8 @@ class TaskSearch < BaseTask
             adjacent_horiz += 1 if tile.scenery == "-"
           end
           next if t.scenery == "-" and adjacent_vert == 1 and adjacent_horiz == 1
-          next unless (adjacent_vert + adjacent_horiz) >= 1
+          next if t.scenery == "-" and adjacent_horiz == 0
+          next if t.scenery == "|" and adjacent_vert == 0
         end
 
         searches_left += 12 - t.searched
