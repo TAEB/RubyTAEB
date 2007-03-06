@@ -16,6 +16,19 @@ class TaskSearch < BaseTask
         t = $map.at(x+dx, y+dy)
         next unless t.scenery == "|" or t.scenery == "-" or t.scenery == "\0"
         next if t.searched >= 12
+
+        # don't search walls next to doors or in corners
+        if t.scenery == "|" or t.scenery == "-"
+          adjacent_vert = 0
+          adjacent_horiz = 0
+          $map.each_adjacent_tile_to(x+dx, y+dy) do |tile|
+            adjacent_vert += 1 if tile.scenery == "|"
+            adjacent_horiz += 1 if tile.scenery == "-"
+          end
+          next if adjacent_vert > 0 && adjacent_horiz > 0
+          next unless (adjacent_vert + adjacent_horiz) >= 1
+        end
+
         searches_left += 12 - t.searched
       end
       path.length > 0 ? (searches_left / (path.length*1.0)) : searches_left
