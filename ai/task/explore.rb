@@ -8,6 +8,7 @@ class TaskExplore < BaseTask
   end
 
   def priority()
+    $map.at($hero.x, $hero.y).debug_color = nil
     @needs_updating = false if $map.updated_this_turn
     return 0 if @needs_updating
 
@@ -23,6 +24,14 @@ class TaskExplore < BaseTask
     if @path == ""
       @needs_updating = true
       return 0
+    end
+
+    x, y = $hero.x, $hero.y
+    @path.each_byte do |dir|
+      dx, dy = $map.delta_with_move(dir.chr)
+      x += dx
+      y += dy
+      $map.at(x, y).debug_color = "\e[1;35m"
     end
 
     debug("Explore path: #{@path}") if @path.length > 3
