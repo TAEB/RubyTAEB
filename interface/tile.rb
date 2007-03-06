@@ -81,11 +81,29 @@ class Tile
     Tile.walk_penalty(@scenery)
   end
 
+  def try_auto_explore_corridor()
+    horiz = 0
+    vert = 0
+    $map.each_direction do |dx, dy|
+      t = $map.at(x+dx, y+dy)
+      next if t.scenery == nil or t.scenery == "\0"
+      return false if t.scenery != "#"
+      return false if dx != 0 and dy != 0
+      horiz += 1 if dy == 0
+      vert += 1 if dx == 0
+    end
+
+    return false unless horiz == 1 and vert == 1
+    @explored = true
+    return true
+  end
+
   def try_auto_explore()
     return :already_explored if @explored
     return false if not walkable?
     return false if @unsure
-    return false if @scenery == "]" or @scenery == "#" or @scenery == "\0"
+    return try_auto_explore_corridor() if @scenery == "#"
+    return false if @scenery == "]" or @scenery == "\0"
 
     $map.each_adjacent_tile_to(@x, @y) do |tile|
       return false if tile.scenery == "\0" or tile.scenery == "#" or tile.scenery == nil or tile.scenery == " "
