@@ -30,6 +30,8 @@ class TaskEnsure < BaseTask
       # no-op
     elsif $controller.vt.row(0) =~ / stands in the way!/
       # no-op
+    elsif $controller.vt.row(0) =~ /^This doorway has no door\./
+      # no-op
     else
       raise "Unexpected TaskEnsure response: #{$controller.vt.row(0)}"
     end
