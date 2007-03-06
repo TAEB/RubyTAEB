@@ -79,5 +79,19 @@ class Tile
   def walk_penalty()
     Tile.walk_penalty(@scenery)
   end
+
+  def try_auto_explore()
+    return :already_explored if @explored
+    return false if not walkable?
+    return false if @unsure
+    return false if @scenery == "]" or @scenery == "#" or @scenery == "\0"
+
+    $map.each_adjacent_tile do |tile|
+      return false if tile.scenery == "\0" or tile.scenery == "#" or tile.scenery == nil or tile.scenery == " "
+    end
+
+    @explored = true
+    return true
+  end
 end
 
