@@ -20,7 +20,7 @@ class Controller
       print str
       $stdout.flush
     else
-      @vt.display
+      $map.display
     end
     str
   end
