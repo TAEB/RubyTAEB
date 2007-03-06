@@ -244,7 +244,7 @@ class Map
     end
   end
 
-  def at(x, y, z=@z)
+  def at(x=$hero.x, y=$hero.y, z=@z)
     @map[z][x][y]
   end
 
