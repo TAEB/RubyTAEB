@@ -142,6 +142,7 @@ class Map
     end
 
     @map[@z][$hero.x][$hero.y].stepped_on += 1
+    @map[@z][$hero.x][$hero.y].explored = true
 
     each_coord do |x, y|
       onscreen = $controller.vt.at(x, y)

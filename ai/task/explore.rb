@@ -15,10 +15,10 @@ class TaskExplore < BaseTask
     return 1 if @path.length > 0
 
     @path = $map.path_to_first_match($hero.x, $hero.y) do |x, y, path|
-      $map.at(x, y).stepped_on == 0
+      not $map.at(x, y).explored
     end
 
-    # @path == "" doesn't make sense here because of course we've stepped on
+    # @path == "" doesn't make sense here because of course we've explored
     # the current square
     if @path == ""
       @needs_updating = true
