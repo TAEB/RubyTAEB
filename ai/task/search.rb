@@ -31,6 +31,10 @@ class TaskSearch < BaseTask
 
         searches_left += 12 - t.searched
       end
+
+      # finish searching before moving on
+      return true if searches_left > 0 and path.length == 0
+
       path.length > 0 ? (searches_left / (path.length*1.0)) : searches_left
     end
 
