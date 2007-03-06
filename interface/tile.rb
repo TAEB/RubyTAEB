@@ -59,22 +59,26 @@ class Tile
     end
   end
 
+  def in_bounds?()
+    @y < 22 and @y > 0
+  end
+
   def monster()
     onscreen = $controller.at(@x, @y)
-    @y < 22 and @y > 0 and Tile.monster?(onscreen) ? onscreen : nil
+    in_bounds? and Tile.monster?(onscreen) ? onscreen : nil
   end
 
   def scenery?()
-    Tile.scenery?(@scenery)
+    in_bounds? and Tile.scenery?(@scenery)
   end
 
   def walkable?()
-    @y < 22 and @y > 0 and Tile.walkable?(@scenery)
+    in_bounds? and Tile.walkable?(@scenery)
   end
 
   def monster?()
     onscreen = $controller.at(@x, @y)
-    Tile.monster?(onscreen) ? true : false
+    in_bounds? and Tile.monster?(onscreen) ? true : false
   end
 
   def walk_penalty()
