@@ -94,5 +94,35 @@ class Tile
     @explored = true
     return true
   end
+
+  def searches_left(type)
+    searches_left = 0
+    $map.each_direction do |dx, dy|
+      t = $map.at(x+dx, y+dy)
+      next unless t.scenery == "|" or t.scenery == "-" or t.scenery == "\0"
+      next if t.searched >= 12
+
+      # don't search walls next to doors or in corners
+      if t.scenery == "|" or t.scenery == "-"
+        adjacent_vert = 0
+        adjacent_horiz = 0
+        $map.each_adjacent_tile_to(x+dx, y+dy) do |tile|
+          adjacent_vert += 1 if tile.scenery == "|"
+          adjacent_horiz += 1 if tile.scenery == "-"
+        end
+        next if t.scenery == "-" and adjacent_vert == 1 and adjacent_horiz == 1
+        next if t.scenery == "-" and adjacent_horiz == 0
+        next if t.scenery == "|" and adjacent_vert == 0
+      end
+
+      if type == :sum
+        searches_left += 12 - t.searched
+      elsif type == :max
+        searches_left = [searches_left, 12 - t.searched].max
+      end
+    end
+
+    return searches_left
+  end
 end
 
