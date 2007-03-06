@@ -177,7 +177,7 @@ class Map
       color = ""
       end_color = ""
 
-      #begin
+      begin
         tile = @map[@z][x][y]
         char = tile.scenery
         if tile.debug_color
@@ -197,9 +197,9 @@ class Map
 
         char = '@' if herox == x and heroy == y
         color + char + end_color
-     # rescue
-      #  " "
-     # end
+      rescue
+        " "
+      end
     end
   end
 
