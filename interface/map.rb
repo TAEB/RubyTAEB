@@ -51,6 +51,29 @@ class Map
     each_coord {|x, y| yield @map[@z][x][y]}
   end
 
+  def delta_with_move(move)
+    case move
+    when 'h'
+      [-1, 0]
+    when 'j'
+      [0, 1]
+    when 'k'
+      [0, -1]
+    when 'l'
+      [1, 0]
+    when 'y'
+      [-1, -1]
+    when 'u'
+      [1, -1]
+    when 'b'
+      [-1, 1]
+    when 'n'
+      [1, 1]
+    else
+      raise "Bad argument in delta_with_move(#{move})"
+    end
+  end
+
   def move_with_delta(dx, dy)
     case dx
     when -1
@@ -188,6 +211,16 @@ class Map
 
   def at_delta(dx=0, dy=0, dz=0)
     at($hero.x+dx, $hero.y+dy, @z+dz)
+  end
+end
+
+
+if __FILE__ == $0
+  map = Map.new()
+  "hjklyubn".each_byte do |c|
+    c = c.chr
+    dx, dy = map.delta_with_move(c)
+    raise "#{c} != move_with_delta(delta_with_move(#{c}))" unless c == map.move_with_delta(dx, dy)
   end
 end
 
