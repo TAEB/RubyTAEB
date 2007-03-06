@@ -61,7 +61,7 @@ class Tile
 
   def monster()
     onscreen = $controller.at(@x, @y)
-    Tile.monster?(onscreen) ? onscreen : nil
+    @y < 22 and @y > 0 and Tile.monster?(onscreen) ? onscreen : nil
   end
 
   def scenery?()
