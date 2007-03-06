@@ -9,6 +9,8 @@ require 'menu.rb'
 require 'hero.rb'
 require 'taskhandler.rb'
 
+print "\e[H\e[2J" # clear the screen (should be removed soonish)
+
 begin
   $controller = Controller.new()
   $hero = Hero.new()

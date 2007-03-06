@@ -33,7 +33,9 @@ class VT
   end
 
   def display_gen()
-    print "\e[H\e[2J"
+    # try to avoid flicker (which is why next line is commented)
+    #print "\e[H\e[2J"
+
     0.upto(@height) do |y|
       0.upto(@width) do |x|
         print "\e[#{y+1};#{x+1}H" + yield x, y
