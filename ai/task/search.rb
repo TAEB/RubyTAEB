@@ -27,7 +27,7 @@ class TaskSearch < BaseTask
     end
 
     @path += "s" * 12
-    debug("Search pach: #{@path}")
+    debug("Search path: #{@path}")
     @path.reverse!
     return 1
   end
