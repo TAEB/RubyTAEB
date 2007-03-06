@@ -86,7 +86,7 @@ class Tile
     return false if @unsure
     return false if @scenery == "]" or @scenery == "#" or @scenery == "\0"
 
-    $map.each_adjacent_tile do |tile|
+    $map.each_adjacent_tile_to(@x, @y) do |tile|
       return false if tile.scenery == "\0" or tile.scenery == "#" or tile.scenery == nil or tile.scenery == " "
     end
 

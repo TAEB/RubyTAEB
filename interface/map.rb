@@ -23,8 +23,16 @@ class Map
     end
   end
 
+  def each_adjacent_to(x, y)
+    each_direction {|dx, dy| yield x+dx, y+dy unless y+dy < 1 or y+dy > 22}
+  end
+
+  def each_adjacent_tile_to(x, y)
+    each_adjacent_to(x, y) {|x, y| yield @map[@z][x][y]}
+  end
+
   def each_adjacent()
-    each_direction {|dx, dy| yield $hero.x+dx, $hero.y+dy unless $hero.y+dy < 1 or $hero.y+dy > 22}
+    each_adjacent_to($hero.x, $hero.y) {|x, y| yield x, y}
   end
 
   def each_adjacent_tile()
