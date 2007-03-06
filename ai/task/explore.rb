@@ -26,15 +26,10 @@ class TaskExplore < BaseTask
       return 0
     end
 
-    x, y = $hero.x, $hero.y
-    @path.each_byte do |dir|
+    x1, y1 = $map.each_step_in_path(@path) do |x, y|
       $map.at(x, y).debug_color = "\e[0;35m"
-      dx, dy = $map.delta_with_move(dir.chr)
-      x += dx
-      y += dy
-      $map.at(x, y).debug_color = "\e[1;35m"
     end
-    $map.at.debug_color = nil
+    $map.at(x1, y1).debug_color = "\e[1;35m"
 
     debug("Explore path: #{@path}") if @path.length > 3
     @path.reverse!
