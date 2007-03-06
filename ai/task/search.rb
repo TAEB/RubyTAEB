@@ -43,7 +43,7 @@ class TaskSearch < BaseTask
       raise "E002: path is nil from path_to_best_match in TaskSearch.priority -- bug in path_to_best_match?"
     end
 
-    @path += "s" * 12
+    @path += "s" * 11
     debug("Search path: #{@path}")
     @path.reverse!
     return 1
