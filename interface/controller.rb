@@ -70,9 +70,7 @@ class Controller
   end
 
   def send(str)
-    out = @connection.send_and_recv(str)
-    @vt.parse(out)
-    to_screen(out)
+    @vt.parse(to_screen(@connection.send_and_recv(str)))
     @vt.to_s
   end
 
