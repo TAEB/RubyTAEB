@@ -21,12 +21,18 @@ class Controller
   end
 
   def to_screen(str)
+    taeb_vision = $map.display
+
+    print_to_ttyrec(str, @ttyrec_handle)
+    print_to_ttyrec(taeb_vision, @debug_ttyrec_handle) if taeb_vision
+
     if $to_screen
       print str
-      $stdout.flush
     else
-      $map.display
+      print taeb_vision if taeb_vision
     end
+
+    $stdout.flush
     str
   end
 
