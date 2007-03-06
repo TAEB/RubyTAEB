@@ -34,6 +34,7 @@ class TaskExplore < BaseTask
       y += dy
       $map.at(x, y).debug_color = "\e[1;36m"
     end
+    $map.at.debug_color = nil
 
     debug("Explore path: #{@path}") if @path.length > 3
     @path.reverse!
