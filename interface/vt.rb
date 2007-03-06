@@ -32,15 +32,21 @@ class VT
     @screen[x][y]
   end
 
-  def display()
+  def display_gen()
     print "\e[H\e[2J"
     0.upto(@height) do |y|
       0.upto(@width) do |x|
-        print "\e[#{y+1};#{x+1}H" + @screen[x][y]
+        print "\e[#{y+1};#{x+1}H" + yield x, y
       end
     end
     print "\e[#{@y+1};#{@x+1}H"
     $stdout.flush
+  end
+
+  def display()
+    display_gen do |x, y|
+      @screen[x][y]
+    end
   end
 
   def to_s()
