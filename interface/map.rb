@@ -146,11 +146,15 @@ class Map
 
     each_coord do |x, y|
       onscreen = $controller.vt.at(x, y)
+      unsure = false
 
       # assume the tile has limited walkability until otherwise noticed
       if not Tile.scenery?(onscreen)
         if @map[@z][x][y].scenery == nil
-          onscreen = ',' unless onscreen == "\0"
+          if onscreen != "\0"
+            onscreen = ','
+            unsure = true
+          end
         else
           next
         end

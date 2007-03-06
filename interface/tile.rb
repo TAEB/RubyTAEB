@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 class Tile
-  attr_accessor :scenery, :stepped_on, :searched, :explored
+  attr_accessor :scenery, :stepped_on, :searched, :explored, :unsure
   attr_reader :x, :y, :z
 
   def initialize(z, x, y)
@@ -11,6 +11,7 @@ class Tile
     @stepped_on = 0
     @searched = 0
     @explored = false
+    @unsure = false
 
     @z = z
     @x = x
