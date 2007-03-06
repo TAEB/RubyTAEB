@@ -3,6 +3,7 @@ $:.push('ai/task/')
 require 'door.rb'
 require 'eatfood.rb'
 require 'elbereth.rb'
+require 'ensure.rb'
 require 'explore.rb'
 require 'fight.rb'
 require 'fixhunger.rb'
@@ -13,6 +14,8 @@ class TaskHandler
   def initialize()
     @tasks =
     [
+      [99999, TaskEnsure.new()    ], # takes 0 time
+
       [10000, TaskElbereth.new()  ], # <50% HP
       [ 2000, TaskFixHunger.new() ], # 1600 Weak, 2000 Fainting
       [ 1900, TaskEatFood.new()   ], # 1520 Hungry, 1710 Weak, 1900 Fainting
