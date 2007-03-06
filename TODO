@@ -95,3 +95,27 @@
   + the general search algorithm can't really use anything but bfs since the termination condition is unclear -- also no general heuristic for e.g. finding the closest unexplored tile
 * detect dead ends and search the hell outta them
 * check logs for more suggestions.. :)
+
+* style : goal :: goal : task
+* goals and tasks are called "progs" (short for programs but also progress)
+* style, goal, and task are called "behavior"
+* make TaskSearch have priority inversely proportional to the amount the level has been explored (so a highly explored level will make it have a relatively low priority).. at some cutoff the TaskDescend will have a higher priority (unless of course the downstair isn't known, in which case TaskSearch will neatly continue running)
+  + also consider sawtooth's idea about searching out a level where there's known to be a shop (due to hearing the messages) and not knowing where it is
+* fix my idea for autoexplore:
+  + a tile is autoexplored if:
+    1. it's scenery but not ], #, or \0
+    2. surrounded by tiles satisfying #1
+       - this should use what's on the screen, not what the map guesses the scenery is
+         = monsters?
+  + when a door opens the neighboring squares should be rechecked for autoexploredness
+* hooks are checked every turn something appears on the top line, so prefer general regex instead of many specific ones for performance
+* hallucination is going to be a bitch.. just make "TaskHallu" super high priority unless we're being attacked or something
+* the code that guesses that a tile is a door if we can't see the scenery is fine
+  + we can check whether it's really a door by trying to close it
+    - if it's a door, you'll get "There's something in the way"
+    - otherwise, you'll get "There's no door there"
+    - both take zero turns!
+* tiles have a debugcolor for the nifty TAEB-vision ttyrec idea
+  + by default they use debugcolor green for explored, yellow for highly searched, etc
+* bot needs to look at the map to figure out what's been explored
+
