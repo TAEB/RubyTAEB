@@ -38,7 +38,8 @@ class VT
 
     0.upto(@height) do |y|
       0.upto(@width) do |x|
-        print "\e[#{y+1};#{x+1}H" + yield x, y
+        cell = yield x, y
+        print "\e[#{y+1};#{x+1}H" + cell
       end
     end
     print "\e[#{@y+1};#{@x+1}H"
