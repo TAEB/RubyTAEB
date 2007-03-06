@@ -162,7 +162,14 @@ class Map
 
       if @map[@z][x][y].scenery != onscreen
         @map[@z][x][y].scenery = onscreen
+        @map[@z][x][y].unsure = unsure
+        @map[@z][x][y].try_auto_explore
         @updated_this_turn = true
+      else
+        if @map[@z][x][y].unsure
+          @map[@z][x][y].unsure = false
+          @updated_this_turn = true
+        end
       end
     end
   end
