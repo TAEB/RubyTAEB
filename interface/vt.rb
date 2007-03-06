@@ -14,6 +14,7 @@ class VT
 
   def set_screen()
     @screen = Array.new(@width+1) {|x| Array.new(@height+1, "\0")}
+    @prev = Array.new(@width+1) {|x| Array.new(@height+1, "\0")}
   end
 
   def to_eol(x, y)
@@ -39,7 +40,9 @@ class VT
     0.upto(@height) do |y|
       0.upto(@width) do |x|
         cell = yield x, y
+        next if @prev[x][y] == cell
         print "\e[#{y+1};#{x+1}H" + cell
+        @prev[x][y] = cell
       end
     end
     print "\e[#{@y+1};#{@x+1}H"
