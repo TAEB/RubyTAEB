@@ -270,6 +270,11 @@ class Map
   def at_delta(dx=0, dy=0, dz=0)
     at($hero.x+dx, $hero.y+dy, @z+dz)
   end
+
+  def at_direction(dir)
+    dx, dy = delta_with_move(dir)
+    at_delta(dx, dy)
+  end
 end
 
 
