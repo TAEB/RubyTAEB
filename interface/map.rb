@@ -302,10 +302,12 @@ class Map
       $need_clear = true
     end
 
-    @map[@z][$hero.x][$hero.y].stepped_on += 1
-    @map[@z][$hero.x][$hero.y].explored = true
+    hx, hy = $hero.x, $hero.y
+    @map[@z][hx][hy].stepped_on += 1
+    @map[@z][hx][hy].explored = true
 
     Map.each_coord do |x, y|
+      tile = @map[@z][x][y]
       onscreen = $controller.vt.at(x, y)
       unsure = false
 
@@ -321,13 +323,13 @@ class Map
         end
       end
 
-      if @map[@z][x][y].scenery != onscreen
-        @map[@z][x][y].scenery = onscreen
-        @map[@z][x][y].unsure = unsure
-        #@map[@z][x][y].try_auto_explore
+      if tile.scenery != onscreen
+        tile.scenery = onscreen
+        tile.unsure = unsure
+        #tile.try_auto_explore
         @updated_this_turn = true
       end
-      @map[@z][x][y].try_auto_explore
+      tile.try_auto_explore
     end
   end
 
