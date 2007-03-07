@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 class Tile
-  attr_accessor :scenery, :stepped_on, :searched, :explored, :unsure, :debug_color
+  attr_accessor :scenery, :stepped_on, :searched, :explored, :unsure, :debug_color, :monster
   attr_reader :x, :y, :z
 
   def initialize(z, x, y)
