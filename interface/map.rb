@@ -175,6 +175,74 @@ class Map
     end
   end
 
+  def birdfly_path(x0, y0, x1, y1)
+    dx = x1 - x0
+    dy = y1 - y0
+    path = ""
+
+    while dx != 0 or dy != 0
+      if dx > 4 and dy > 4
+        dx -= 8
+        dy -= 8
+        path += "N"
+      elsif dx > 4 and dy < 4
+        dx -= 8
+        dy += 8
+        path += "U"
+      elsif dx < 4 and dy > 4
+        dx += 8
+        dy -= 8
+        path += "B"
+      elsif dx < 4 and dy < 4
+        dx += 8
+        dy += 8
+        path += "Y"
+      elsif dx < 4
+        dx += 8
+        path += "H"
+      elsif dx > 4
+        dx -= 8
+        path += "L"
+      elsif dy < 4
+        dy += 8
+        path += "J"
+      elsif dy > 4
+        dy -= 8
+        path += "K"
+      elsif dx > 0 and dy > 0
+        dx -= 1
+        dy -= 1
+        path += "n"
+      elsif dx > 0 and dy < 0
+        dx -= 1
+        dy += 1
+        path += "u"
+      elsif dx < 0 and dy > 0
+        dx += 1
+        dy -= 1
+        path += "b"
+      elsif dx < 0 and dy < 0
+        dx += 1
+        dy += 1
+        path += "y"
+      elsif dx < 0
+        dx += 1
+        path += "h"
+      elsif dx > 0
+        dx -= 1
+        path += "l"
+      elsif dy < 0
+        dy += 1
+        path += "j"
+      elsif dy > 0
+        dy -= 1
+        path += "k"
+      end
+    end
+
+    return path
+  end
+
   def display()
     herox = $controller.vt.x
     heroy = $controller.vt.y
