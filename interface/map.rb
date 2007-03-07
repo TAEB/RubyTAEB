@@ -310,6 +310,7 @@ class Map
       tile = @map[@z][x][y]
       onscreen = $controller.vt.at(x, y)
       unsure = false
+      tile.monster = nil
 
       # assume the tile has limited walkability until otherwise noticed
       if not Tile.scenery?(onscreen)
@@ -320,6 +321,36 @@ class Map
           end
         else
           next
+        end
+
+        if Tile.monster?(onscreen)
+          $controller.send(";" + Map.birdfly_path(hx, hy, x, y) + ".")
+          top_row = $controller.vt.to_s
+          $messages.clear_screen()
+          if top_row =~ /\(((?:tame |peaceful )?(?:invisible )?)(.+?)(?: called (.+?))?(?: - [\w\s]+)?\)/
+            attributes = $1
+            species = $2
+            id = $3 if $3
+            id = species if $monsters.has_key?(species) # for uniques
+
+            tame = attributes =~ /tame/
+            peaceful = attributes =~ /peaceful/
+            invisible = attributes =~ /invisible/
+
+            unless id and $monsters.has_key?(id)
+              monster = Monster.new(onscreen, species, x, y, @z)
+              id = monster.id
+            else
+              monster = $monsters[id]
+            end
+
+            tile.monster = monster
+            monster.tame = tame
+            monster.peaceful = peaceful
+            monster.invisible = invisible
+          else
+            raise "Unable to ; monster (glyph=#{onscreen}) at #{x}, #{y}"
+          end
         end
       end
 
