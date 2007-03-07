@@ -1,10 +1,11 @@
 #!/usr/bin/ruby
 
-$:.push('interface', 'ai', 'ai/task')
+$:.push('interface', 'ai')
 require 'constants.rb'
 require 'diagnostics.rb'
 require 'controller.rb'
 require 'map.rb'
+require 'messages.rb'
 require 'menu.rb'
 require 'hero.rb'
 require 'taskhandler.rb'
