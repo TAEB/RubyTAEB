@@ -7,9 +7,9 @@ class TaskEnsure < BaseTask
   end
 
   def adjacent_unsure_direction()
-    $map.each_direction do |dx, dy|
+    Map.each_direction do |dx, dy|
       if $map.at_delta(dx, dy).unsure
-        return $map.move_with_delta(dx, dy)
+        return Map.move_with_delta(dx, dy)
       end
     end
     nil
@@ -22,7 +22,7 @@ class TaskEnsure < BaseTask
 
   def run()
     $controller.send("c" + @direction)
-    dx, dy = $map.delta_with_move(@direction)
+    dx, dy = Map.delta_with_move(@direction)
 
     $map.at_delta(dx, dy).unsure = false
     $map.updated_this_turn = 1

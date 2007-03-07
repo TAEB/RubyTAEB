@@ -17,7 +17,7 @@ class Map
     @map[z] ||= Array.new(81) {|x| Array.new(25) {|y| Tile.new(z, x, y) }}
   end
 
-  def each_direction()
+  def Map.each_direction()
     for dx in [-1, 0, 1]
       for dy in [-1, 0, 1]
         yield dx, dy unless dx == 0 and dy == 0
@@ -25,23 +25,23 @@ class Map
     end
   end
 
-  def each_adjacent_to(x, y)
-    each_direction {|dx, dy| yield x+dx, y+dy unless y+dy < 1 or y+dy > 22}
+  def Map.each_adjacent_to(x, y)
+    Map.each_direction {|dx, dy| yield x+dx, y+dy unless y+dy < 1 or y+dy > 22}
   end
 
   def each_adjacent_tile_to(x, y)
-    each_adjacent_to(x, y) {|x, y| yield @map[@z][x][y]}
+    Map.each_adjacent_to(x, y) {|x, y| yield @map[@z][x][y]}
   end
 
-  def each_adjacent()
-    each_adjacent_to($hero.x, $hero.y) {|x, y| yield x, y}
+  def Map.each_adjacent()
+    Map.each_adjacent_to($hero.x, $hero.y) {|x, y| yield x, y}
   end
 
   def each_adjacent_tile()
-    each_adjacent {|x, y| yield @map[@z][x][y]}
+    Map.each_adjacent {|x, y| yield @map[@z][x][y]}
   end
 
-  def each_coord()
+  def Map.each_coord()
     0.upto(80) do |x|
       0.upto(24) do |y|
         yield x, y
@@ -50,10 +50,10 @@ class Map
   end
 
   def each_tile()
-    each_coord {|x, y| yield @map[@z][x][y]}
+    Map.each_coord {|x, y| yield @map[@z][x][y]}
   end
 
-  def delta_with_move(move)
+  def Map.delta_with_move(move)
     case move
     when 'h'
       [-1, 0]
@@ -76,7 +76,7 @@ class Map
     end
   end
 
-  def move_with_delta(dx, dy)
+  def Map.move_with_delta(dx, dy)
     case dx
     when -1
       case dy
@@ -108,11 +108,11 @@ class Map
     raise "Argument out of range in move_with_delta("+dx.to_s+","+dy.to_s+")"
   end
 
-  def each_step_in_path(path, x0=$hero.x, y0=$hero.y)
+  def Map.each_step_in_path(path, x0=$hero.x, y0=$hero.y)
     x, y = x0, y0
 
     path.each_byte do |dir|
-      dx, dy = delta_with_move(dir.chr)
+      dx, dy = Map.delta_with_move(dir.chr)
       x += dx
       y += dy
       yield x, y
@@ -143,7 +143,7 @@ class Map
         best_path = path
       end
 
-      each_direction do |dx, dy|
+      Map.each_direction do |dx, dy|
         next if visited[x+dx][y+dy]
         visited[x+dx][y+dy] = true
         next if not at(x+dx, y+dy).walkable?
@@ -153,7 +153,7 @@ class Map
           (at(x   , y   ).scenery == ',' or
            at(x+dx, y+dy).scenery == ',')
 
-        queue.push([x+dx, y+dy, path + move_with_delta(dx, dy)])
+        queue.push([x+dx, y+dy, path + Map.move_with_delta(dx, dy)])
       end
     end
     return best_path
@@ -237,7 +237,7 @@ class Map
     @map[@z][$hero.x][$hero.y].stepped_on += 1
     @map[@z][$hero.x][$hero.y].explored = true
 
-    each_coord do |x, y|
+    Map.each_coord do |x, y|
       onscreen = $controller.vt.at(x, y)
       unsure = false
 
@@ -272,18 +272,17 @@ class Map
   end
 
   def at_direction(dir)
-    dx, dy = delta_with_move(dir)
+    dx, dy = Map.delta_with_move(dir)
     at_delta(dx, dy)
   end
 end
 
 
 if __FILE__ == $0
-  map = Map.new()
   "hjklyubn".each_byte do |c|
     c = c.chr
-    dx, dy = map.delta_with_move(c)
-    raise "#{c} != move_with_delta(delta_with_move(#{c}))" unless c == map.move_with_delta(dx, dy)
+    dx, dy = Map.delta_with_move(c)
+    raise "#{c} != move_with_delta(delta_with_move(#{c}))" unless c == Map.move_with_delta(dx, dy)
   end
 end
 

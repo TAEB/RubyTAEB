@@ -88,7 +88,7 @@ class Tile
   def try_auto_explore_corridor()
     horiz = 0
     vert = 0
-    $map.each_direction do |dx, dy|
+    Map.each_direction do |dx, dy|
       t = $map.at(x+dx, y+dy)
       next if t.scenery == nil or t.scenery == "\0"
       return false if t.scenery != "#"
@@ -119,7 +119,7 @@ class Tile
 
   def searches_left(type)
     searches_left = 0
-    $map.each_direction do |dx, dy|
+    Map.each_direction do |dx, dy|
       t = $map.at(x+dx, y+dy)
       next unless t.scenery == "|" or t.scenery == "-" or t.scenery == "\0"
       next if t.searched >= 12

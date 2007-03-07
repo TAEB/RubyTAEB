@@ -26,7 +26,7 @@ class TaskExplore < BaseTask
       return 0
     end
 
-    x1, y1 = $map.each_step_in_path(@path) do |x, y|
+    x1, y1 = Map.each_step_in_path(@path) do |x, y|
       $map.at(x, y).debug_color = "\e[0;35m"
     end
     $map.at(x1, y1).debug_color = "\e[1;35m"
