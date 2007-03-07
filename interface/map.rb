@@ -314,7 +314,10 @@ class Map
 
       # assume the tile has limited walkability until otherwise noticed
       if not Tile.scenery?(onscreen)
-        if @map[@z][x][y].scenery == nil or @map[@z][x][y].scenery == "\0"
+        if @map[@z][x][y].scenery == "]"
+          onscreen = ','
+          unsure = true
+        elsif @map[@z][x][y].scenery == nil or @map[@z][x][y].scenery == "\0"
           if onscreen != "\0"
             onscreen = ','
             unsure = true
