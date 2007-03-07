@@ -13,12 +13,14 @@ require 'taskhandler.rb'
 print "\e[H\e[2J" # clear the screen (should be removed soonish)
 
 begin
+  $messages = MessageHandler.new()
   $controller = Controller.new()
   $hero = Hero.new()
   $map = Map.new()
   $taskhandler = TaskHandler.new()
 
-  $taskhandler.clear_screen()
+  $messages.clear_screen()
+
   while 1
     $map.update
     $taskhandler.next_task()

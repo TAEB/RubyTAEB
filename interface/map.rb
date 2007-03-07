@@ -8,13 +8,31 @@ class Map
 
   def initialize()
     @map = []
+    @info = []
     @z = 1
     initialize_level(@z)
     @updated_this_turn = false
   end
 
+  def downstairx=(x)
+    @info[@z][:downstair_x] = x
+  end
+
+  def downstairy=(y)
+    @info[@z][:downstair_y] = y
+  end
+
+  def downstairx()
+    @info[@z][:downstair_x]
+  end
+
+  def downstairy()
+    @info[@z][:downstair_y]
+  end
+
   def initialize_level(z)
     @map[z] ||= Array.new(81) {|x| Array.new(25) {|y| Tile.new(z, x, y) }}
+    @info[z] ||= Hash.new()
   end
 
   def Map.each_direction()
@@ -260,7 +278,10 @@ class Map
       begin
         tile = @map[@z][x][y]
         char = tile.scenery
-        if tile.debug_color
+        if x == self.downstairx and y == self.downstairy
+          color = "\e[1;33m"
+          end_color = "\e[0m"
+        elsif tile.debug_color
           color = tile.debug_color
           end_color = "\e[0m"
         elsif tile.unsure
@@ -311,6 +332,10 @@ class Map
       onscreen = $controller.vt.at(x, y)
       unsure = false
       tile.monster = nil
+      if tile.scenery == '>'
+        self.downstairx = x
+        self.downstairy = y
+      end
 
       # assume the tile has limited walkability until otherwise noticed
       if not Tile.scenery?(onscreen)
