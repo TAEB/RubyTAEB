@@ -8,6 +8,7 @@ class Controller
   attr_reader :vt, :connection
 
   def initialize()
+    @logged_in = false
     @vt = VT.new(80, 24)
     debug("Connecting to #{$server}")
     @connection = Telnet.new($server)
@@ -18,6 +19,7 @@ class Controller
     @debug_ttyrec_handle = File.new(@debug_ttyrec_name, "w")
 
     login
+    @logged_in = true
   end
 
   def to_screen(str)
@@ -26,7 +28,7 @@ class Controller
     print_to_ttyrec(str, @ttyrec_handle)
     print_to_ttyrec(taeb_vision, @debug_ttyrec_handle) if taeb_vision
 
-    if $to_screen
+    if $to_screen or not @logged_in
       print str
     else
       print taeb_vision if taeb_vision
