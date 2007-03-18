@@ -25,14 +25,15 @@ class MessageHandler
     message.gsub!(/ {2,}/, ' ')
 
     @message_hooks.each do |regex_callback|
-      if message =~ regex_callback[0]
-        regex_callback[1].call(regex_callback[0].match_data)
+      md = regex_callback[0].match(message)
+      if md
+        regex_callback[1].call(md)
       end
     end
   end
 
   def clear_screen()
-    message = ""
+    message = $controller.vt.row(0)
 
     while 1
       if $controller.vt.row(0) =~ /^Do you want your possessions identified\?/ or
