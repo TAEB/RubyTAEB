@@ -55,9 +55,9 @@ class Controller
       play_screen = send(tmp)
       tmp = ""
 
-      if play_screen =~ /Shall I choose/
+      if play_screen =~ /Welcome to NetHack/
         debug("Creating a new character")
-        send("y ")
+        send(" ")
         break
       elsif play_screen =~ /stale NetHack processes/
         debug("Got some stale processes; waiting 12s then trying again")
