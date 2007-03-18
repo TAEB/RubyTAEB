@@ -132,9 +132,21 @@ class Tile
           adjacent_vert += 1 if tile.scenery == "|"
           adjacent_horiz += 1 if tile.scenery == "-"
         end
-        next if t.scenery == "-" and adjacent_vert == 1 and adjacent_horiz == 1
-        next if t.scenery == "-" and adjacent_horiz == 0
-        next if t.scenery == "|" and adjacent_vert == 0
+        if (t.scenery == "-" and adjacent_vert == 1 and adjacent_horiz == 1) or
+           (t.scenery == "-" and adjacent_horiz == 0) or
+           (t.scenery == "|" and adjacent_vert == 0)
+             t.searched = 12
+             next
+        end
+   
+      # don't search straight corridors
+#      elsif t.scenery == "#"
+#        Map.each_direction do |dx2, dy2|
+#          t2 = $map.at(x+dx+dx2, y+dy+dy2)
+#          op_t2 = $map.at(x+dx-dx2, y+dy-dy2)
+#          next if t2.scenery != "#" and t2.scenery != "\0"
+#          break if op_t2.scenery != "#" and op_t2.scenery != "\0"
+#        end
       end
 
       if type == :sum
