@@ -167,9 +167,12 @@ class Map
         next if not at(x+dx, y+dy).walkable?
 
         # handle not walking diagonally off/onto doors
-        next if dx != 0 and dy != 0 and
+        if dx != 0 and dy != 0 and
           (at(x   , y   ).scenery == ',' or
            at(x+dx, y+dy).scenery == ',')
+             visited[x+dx][y+dy] = false
+             next
+        end
 
         queue.push([x+dx, y+dy, path + Map.move_with_delta(dx, dy)])
       end
