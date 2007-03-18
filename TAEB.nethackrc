@@ -1,0 +1,30 @@
+OPTIONS=role:monk,gender:male,align:neutral
+OPTIONS=showexp,showscore,time,color
+OPTIONS=!autopickup,pickup_burden:unburdened
+OPTIONS=autodig,fruit:canister of RoboJuice(tm),boulder:0
+OPTIONS=!sparkle
+OPTIONS=!cmdassist,!news,!tombstone,!legacy,suppress_alert:3.4.3
+OPTIONS=!prayconfirm
+OPTIONS=pettype:none
+OPTIONS=menustyle:traditional
+OPTIONS=showborn
+OPTIONS=sortloot:full
+OPTIONS=runmode:teleport
+OPTIONS=lit_corridor
+OPTIONS=!mail
+
+OPTIONS=monsters:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@X'&;:~m
+
+OPTIONS=traps:\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^\^
+#changes: spider web => ^   now " unconditionally amulet
+
+OPTIONS=dungeon: |--------||.\44\44]]}}.##<><>__\\{{}.}..}} #}
+#changes: open doors => ,   now | and - are unconditionally walls
+#         closed doors => ] now + unconditionally spellbook
+#         iron bars => }    not walkable (cyan)
+#         trees => }        not walkable (green)
+#         grave => _        I have to ; altars anyway, now | is unconditionally wall
+#         sink => {         now # is unconditionally corridor or air
+#         drawbridge => }   same as sink, not walkable
+
+OPTIONS=disclose:yi+avgc
