@@ -201,11 +201,11 @@ if __FILE__ == $0
   pq = PriorityQueue.new(lambda {|a, b| a > b})
 
   # Begin building huge test case!
-  # We take 1001 integers (half positive, half negative, one zero :))
+  # We take 101 integers (half positive, half negative, one zero :))
   # shuffle them, add them to the priority queue, and then go wild.
 
   t = []
-  (-500..500).each {|n| t.push(n) }
+  (-50..50).each {|n| t.push(n) }
 
   t.shuffle!
   t.each {|n| pq.insert(n) }
@@ -231,6 +231,19 @@ if __FILE__ == $0
   assert_eq("Post huge test 3/5", pq.size, 0)
   assert_eq("Post huge test 4/5", pq.peek_min, nil)
   assert_eq("Post huge test 5/5", pq.pop_min, nil)
+
+  pq = PriorityQueue.new(lambda {|a, b| a[0] < b[0]})
+  pq.insert([100, "bleh", "blah"])
+  pq.insert([10, "bleh", "blah"])
+  pq.insert([1000, "bleh", "blah"])
+  pq.insert([1.0, "bleh", "blah"])
+  pq.insert([10000, "bleh", "blah"])
+  assert_eq("Array comparator test 1/5", pq.pop_min[0], 1.0)
+  assert_eq("Array comparator test 2/5", pq.pop_min[0], 10)
+  assert_eq("Array comparator test 3/5", pq.pop_min[0], 100)
+  assert_eq("Array comparator test 4/5", pq.pop_min[0], 1000)
+  assert_eq("Array comparator test 5/5", pq.pop_min[0], 10000)
+
 
   print "unit test succeeded\n"
 end
