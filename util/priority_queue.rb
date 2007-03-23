@@ -7,9 +7,14 @@
 # Most of this code is based on column 14 ("Heaps") of Programming Pearls.
 
 class PriorityQueue
-  def initialize()
+  def initialize(comparator=nil)
     @heap = [0]
     @n = 0
+    if comparator == nil
+      @comparator = lambda {|a, b| a < b}
+    else
+      @comparator = comparator
+    end
   end
 
   def insert(val)
@@ -51,7 +56,7 @@ class PriorityQueue
   def _sift_up(idx)
 
     # while we're not at the root and current node is smaller than its parent
-    while idx > 1 && @heap[idx] < @heap[idx>>1]
+    while idx > 1 && @comparator.call(@heap[idx], @heap[idx>>1])
       # swap!
       t = @heap[idx]
       @heap[idx] = @heap[idx>>1]
@@ -66,12 +71,12 @@ class PriorityQueue
     while (c = 2*idx) <= @n
 
       # Is our right child smaller than our left?
-      if c+1 <= @n && @heap[c+1] < @heap[c]
+      if c+1 <= @n && @comparator.call(@heap[c+1], @heap[c])
         c += 1
       end
 
       # Heap condition restored, hurrah.
-      break if @heap[idx] < @heap[c]
+      break if @comparator.call(@heap[idx], @heap[c])
 
       # Swap this node with its (lesser) child.
       t = @heap[idx]
