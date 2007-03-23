@@ -197,6 +197,41 @@ if __FILE__ == $0
   assert_eq("Post huge test 4/5", pq.peek_min, nil)
   assert_eq("Post huge test 5/5", pq.pop_min, nil)
 
+  # now test with a custom comparator
+  pq = PriorityQueue.new(lambda {|a, b| a > b})
+
+  # Begin building huge test case!
+  # We take 1001 integers (half positive, half negative, one zero :))
+  # shuffle them, add them to the priority queue, and then go wild.
+
+  t = []
+  (-500..500).each {|n| t.push(n) }
+
+  t.shuffle!
+  t.each {|n| pq.insert(n) }
+  t.sort! {|a, b| b <=> a}
+
+  while t.size > 0
+    min = t[0]
+
+    # Comment out this first assertion if you're testing the heap versus array PQ
+    # implementations. Ruby optimizes sorting a sorted list, which means, if you include
+    # this first test, the array implementation will almost always be faster.
+
+    assert_eq("Huge test 1/5", pq.all_values.sort{|a, b| b <=> a}, t)
+    assert_eq("Huge test 2/5", pq.empty?, false)
+    assert_eq("Huge test 3/5", pq.size, t.size)
+    assert_eq("Huge test 4/5", pq.peek_min, min)
+    assert_eq("Huge test 5/5", pq.pop_min, min)
+    t.delete_at(0)
+  end
+
+  assert_eq("Post huge test 1/5", pq.all_values.sort, [])
+  assert_eq("Post huge test 2/5", pq.empty?, true)
+  assert_eq("Post huge test 3/5", pq.size, 0)
+  assert_eq("Post huge test 4/5", pq.peek_min, nil)
+  assert_eq("Post huge test 5/5", pq.pop_min, nil)
+
   print "unit test succeeded\n"
 end
 
