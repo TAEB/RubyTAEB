@@ -85,7 +85,12 @@ class Tile
   end
 
   def walk_penalty()
-    Tile.walk_penalty(@scenery)
+    glyph_penalty = Tile.walk_penalty(@scenery)
+    if @stepped_on
+      return glyph_penalty * 0.5
+    else
+      return glyph_penalty
+    end
   end
 
   def try_auto_explore_corridor()
