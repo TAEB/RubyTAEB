@@ -21,7 +21,14 @@ class TaskEnsure < BaseTask
   end
 
   def run()
-    $controller.send("c" + @direction)
+    $controller.send("c")
+
+    if $controller.vt.row(0) =~ /^You can't reach over the edge of the pit\./
+      return false
+    end
+
+    $controller.send(@direction)
+
     dx, dy = Map.delta_with_move(@direction)
 
     $map.at_delta(dx, dy).unsure = false
