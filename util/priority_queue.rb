@@ -125,6 +125,13 @@ end
 if __FILE__ == $0
   require "assert.rb"
 
+  class Array
+    def shuffle!
+      size.downto(1) {|n| push(delete_at(rand(n)))}
+      self
+    end
+  end
+
   pq = PriorityQueue.new()
 
   assert_eq("PQ initially empty 1/5", pq.empty?, true)
@@ -165,13 +172,6 @@ if __FILE__ == $0
 
   t = []
   (-500..500).each {|n| t.push(n) }
-
-  class Array
-    def shuffle!
-      size.downto(1) {|n| push(delete_at(rand(n)))}
-      self
-    end
-  end
 
   t.shuffle!
   t.each {|n| pq.insert(n) }
