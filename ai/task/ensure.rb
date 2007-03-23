@@ -45,6 +45,8 @@ class TaskEnsure < BaseTask
     else
       raise "Unexpected TaskEnsure response: #{$controller.vt.row(0)}"
     end
+
+    return true
   end
 end
 
