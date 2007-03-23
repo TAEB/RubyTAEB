@@ -1,18 +1,21 @@
 #!/usr/bin/ruby
 
 class Tile
-  attr_accessor :scenery, :stepped_on, :searched, :explored, :unsure, :debug_color, :monster
+  attr_accessor :scenery, :stepped_on, :searched, :explored, :unsure, :monster, :on_explore_path, :explore_destination, :on_search_path, :search_destination
   attr_reader :x, :y, :z
 
   def initialize(z, x, y)
     @scenery = nil
     @items = nil
     @monster = nil
-    @debug_color = nil
     @stepped_on = 0
     @searched = 0
     @explored = false
     @unsure = false
+    @on_explore_path = false
+    @explore_destination = false
+    @on_search_path = false
+    @search_destination = false
 
     @z = z
     @x = x

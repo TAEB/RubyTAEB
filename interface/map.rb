@@ -284,8 +284,17 @@ class Map
         if x == self.downstairx and y == self.downstairy
           color = "\e[1;33m"
           end_color = "\e[0m"
-        elsif tile.debug_color
-          color = tile.debug_color
+        elsif tile.explore_destination
+          color = "\e[1;35m"
+          end_color = "\e[0m"
+        elsif tile.on_explore_path
+          color = "\e[0;35m"
+          end_color = "\e[0m"
+        elsif tile.search_destination
+          color = "\e[1;36m"
+          end_color = "\e[0m"
+        elsif tile.on_search_path
+          color = "\e[0;36m"
           end_color = "\e[0m"
         elsif tile.unsure
           color = "\e[1;31m"

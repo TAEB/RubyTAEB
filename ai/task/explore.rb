@@ -8,7 +8,6 @@ class TaskExplore < BaseTask
   end
 
   def priority()
-    $map.at($hero.x, $hero.y).debug_color = nil
     @needs_updating = false if $map.updated_this_turn
     return 0 if @needs_updating
 
@@ -26,10 +25,15 @@ class TaskExplore < BaseTask
       return 0
     end
 
-    x1, y1 = Map.each_step_in_path(@path) do |x, y|
-      $map.at(x, y).debug_color = "\e[0;35m"
+    $map.each_tile do |tile|
+      tile.on_explore_path     = tile.on_search_path     =
+      tile.explore_destination = tile.search_destination = false
     end
-    $map.at(x1, y1).debug_color = "\e[1;35m"
+
+    x1, y1 = Map.each_step_in_path(@path) do |x, y|
+      $map.at(x, y).on_explore_path = true
+    end
+    $map.at(x1, y1).explore_destination = true
 
     debug("Explore path: #{@path}") if @path.length > 3
     @path.reverse!

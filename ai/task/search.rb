@@ -24,9 +24,15 @@ class TaskSearch < BaseTask
       raise "E002: path is nil from path_to_best_match in TaskSearch.priority -- bug in path_to_best_match?"
     end
 
-    x1, y1 = Map.each_step_in_path(@path) do |x, y|
-      $map.at(x, y).debug_color = "\e[1;36m"
+    $map.each_tile do |tile|
+      tile.on_explore_path     = tile.on_search_path     =
+      tile.explore_destination = tile.search_destination = false
     end
+
+    x1, y1 = Map.each_step_in_path(@path) do |x, y|
+      $map.at(x, y).on_search_path = true
+    end
+    $map.at(x1, y1).search_destination = true
 
     @path += "s" * $map.at(x1, y1).searches_left(:max)
     debug("Search path: #{@path}")
