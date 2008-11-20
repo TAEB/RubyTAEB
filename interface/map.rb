@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 require 'interface/tile.rb'
+require 'util/priority_queue.rb'
 
 $need_clear = false
 
@@ -138,8 +139,11 @@ class Map
     return [x, y]
   end
 
+  # FIXME!!
   def path_to_best_match(x0, y0)
-    queue = [[x0, y0, ""]]
+    queue = PriorityQueue.new(lambda {|a, b| a[0] < b[0]})
+    queue.insert([0, x0, y0, ""])
+
     visited = Array.new(81) {|x| Array.new(25, false)}
     visited[x0][y0] = true
 
@@ -147,34 +151,39 @@ class Map
     best_path = ""
 
     while queue.size > 0
-      x, y, path = queue.shift
-      score = yield x, y, path
+      travel_cost, x, y, path = queue.pop_min
+      callback_score = yield x, y, path
 
       # shortcut to allow implementation of path_to_first_match in terms of this
       # method
-      return path if score == true
+      return path if callback_score == true
 
       # if score is false, it's definitely not a valid destination, but it could
       # be a hop along the path to the real dest
-      if score and (best_score == nil or score > best_score)
-        best_score = score
+      if callback_score and (best_score == nil or callback_score > best_score)
+        best_score = callback_score
         best_path = path
       end
 
+      visited[x][y] = true
+
       Map.each_direction do |dx, dy|
         next if visited[x+dx][y+dy]
-        visited[x+dx][y+dy] = true
         next if not at(x+dx, y+dy).walkable?
 
         # handle not walking diagonally off/onto doors
         if dx != 0 and dy != 0 and
           (at(x   , y   ).scenery == ',' or
            at(x+dx, y+dy).scenery == ',')
-             visited[x+dx][y+dy] = false
              next
         end
 
-        queue.push([x+dx, y+dy, path + Map.move_with_delta(dx, dy)])
+        queue.insert([
+                     travel_cost + at(x+dx,y+dy).walk_penalty,
+                     x+dx,
+                     y+dy,
+                     path + Map.move_with_delta(dx, dy)
+                   ])
       end
     end
     return best_path

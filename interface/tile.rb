@@ -87,9 +87,9 @@ class Tile
   def walk_penalty()
     glyph_penalty = Tile.walk_penalty(@scenery)
     if @stepped_on
-      return glyph_penalty * 0.5
+      return glyph_penalty * 0.01
     else
-      return glyph_penalty
+      return glyph_penalty * 1.0
     end
   end
 
